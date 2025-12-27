@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DOA PERFUME & COSMETICS</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+body {
+  background: #f5f2ee;
+  color: #3A2E2A;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  position: sticky;
+  top: 1rem;
+  z-index: 1000;
+  background: #3A2E2A;
+  padding: 1rem 2rem;
+  margin: 1.5rem auto 0;
+  border-radius: 50px;
+  max-width: 95%;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: navFade 0.8s ease forwards;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+@keyframes navFade {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-img { height: 60px; }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.nav-links a:not(.icon-link):hover {
+  color: #E6D8C3;
+}
+
+.nav-links a:not(.icon-link)::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  left: 0;
+  bottom: -5px;
+  background: #E6D8C3;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:not(.icon-link):hover::after {
+  width: 100%;
+}
+
+.icon-link i {
+  font-size: 1.3rem;
+  transition: transform 0.3s ease;
+}
+
+.icon-link:hover i {
+  transform: scale(1.2);
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ================= CONTACT SECTION ================= */
+.contact-section {
+  padding: 7rem 4%;
+}
+
+.contact-wrapper {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+/* LEFT */
+.contact-title {
+  font-size: 7rem;
+  font-weight: 900;
+  margin-bottom: 2.5rem;
+  color: #3A2E2A;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #3A2E2A;
+  background: transparent;
+  padding: 0.9rem 0;
+  margin-bottom: 2rem;
+  color: #3A2E2A;
+  outline: none;
+}
+
+.contact-form button {
+  background: #3A2E2A;
+  color: #D4AF37;
+  border: none;
+  padding: 0.9rem 3rem;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+/* RIGHT */
+.contact-card {
+  background: white;
+  border-radius: 22px;
+  padding: 2.5rem;
+  position: relative;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.08);
+}
+
+.contact-inner-card {
+  background: #3A2E2A;
+  border-radius: 18px;
+  padding: 2.5rem 2rem;
+  margin-top: 1.5rem;
+  position: relative;
+  color: white;
+}
+
+.contact-inner-card h3 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+/* INFO */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.info-item p {
+  color: white;
+  font-size: 0.95rem;
+}
+
+/* ICON CIRCLE */
+.icon-circle {
+  width: 38px;
+  height: 38px;
+  background: #3A2E2A;
+  border: 1px solid #D4AF37;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-circle i {
+  color: #D4AF37;
+  font-size: 0.9rem;
+}
+
+/* EDGE DOTS */
+.edge-dot {
+  width: 7px;
+  height: 7px;
+  background: #D4AF37;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.edge-dot.top {
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.edge-dot.bottom {
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.edge-dot.left {
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.edge-dot.right {
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-title {
+    font-size: 3.5rem;
+  }
+}
+
+/* ===== SCROLL REVEAL ===== */
+.contact-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s ease;
+}
+
+.contact-section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== FLOATING INNER CARD ===== */
+@keyframes floatCard {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.contact-inner-card {
+  animation: floatCard 6s ease-in-out infinite;
+}
+
+/* ===== ICON HOVER GLOW ===== */
+.icon-circle {
+  transition: all 0.4s ease;
+}
+
+.icon-circle:hover {
+  box-shadow: 0 0 12px rgba(212,175,55,0.6);
+  transform: scale(1.05);
+}
+
+/* ================================
+   FOOTER
+================================ */
+.footer {
+  background-color: #E6D8C3;
+  padding: 4rem 1.5rem 2rem;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+/* Newsletter Card */
+.newsletter-card {
+  background-color: #3A2E2A;
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 4rem; /* Centers and adds spacing below */
+  width: 90%;
+  max-width: 1000px;
+}
+
+.newsletter-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 950px;
+  color: #fff;
+}
+
+.newsletter-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.newsletter-text h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.newsletter-text p {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3rem;
+  padding: 0.3rem 0.5rem;
+  margin-top: 1rem;
+}
+
+.email-input {
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  outline: none;
+  border-radius: 2rem;
+  color: #fff;
+  width: 220px;
+  backdrop-filter: blur(8px);
+}
+
+.email-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.subscribe-btn {
+  background-color: #E6D8C3;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.8rem 1.6rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  transform: scale(1.05);
+  background-color: #f6ead8;
+}
+
+/* Footer Main */
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1000px; /* match newsletter width */
+  margin: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 3rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  gap: 3rem;
+}
+
+.footer-left {
+  flex: 1;
+  min-width: 250px;
+  text-align: left;
+}
+
+.footer-logo {
+  width: 150px;
+  margin-bottom: 1rem;
+}
+
+.footer-left p {
+  font-size: 0.9rem;
+  color: #0F0F0F;
+  margin-bottom: 1rem;
+}
+
+/* Social Media */
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-link {
+  color: #3A2E2A;
+  font-size: 1.4rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-link:hover {
+  color: #E6D8C3;
+  transform: scale(1.1);
+}
+
+/* Footer Links */
+.footer-links {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.link-group h4 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #3A2E2A;
+  font-weight: 600;
+}
+
+.link-group a {
+  display: block;
+  text-decoration: none;
+  color: #0F0F0F;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.link-group a:hover {
+  color: #373737;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .newsletter-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .newsletter-form {
+    width: 100%;
+  }
+
+  .footer-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .footer-left {
+    text-align: left;
+  }
+}
+
+.footer-bottom {
+  text-align: center;
+  color: #333;
+  font-size: 0.9rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.9;
+}
+
+</style>
+</head>
+<body>
+
+    <nav class="navbar">
+  <div class="nav-container">
+    <img src="logo.png" class="logo-img">
+    <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">HOME</a>
+      <a href="index.html#about">ABOUT</a>
+      <a href="perfume.html">PERFUMES</a>
+      <a href="cosmetic.html">COSMETICS</a>
+      <a href="contact.html">CONTACT</a>
+      <a class="icon-link"><i class="fa-regular fa-heart"></i></a>
+      <a class="icon-link"><i class="fa-regular fa-user"></i></a>
+      <a class="icon-link"><i class="fa-solid fa-cart-shopping"></i></a>
+    </div>
+  </div>
+</nav>
+
+<section class="contact-section">
+  <div class="contact-wrapper">
+
+    <!-- LEFT -->
+    <div class="contact-left">
+      <h1 class="contact-title">Contact</h1>
+
+      <form class="contact-form">
+        <input type="text" placeholder="Full name" required>
+        <input type="email" placeholder="Email address" required>
+        <textarea rows="5" placeholder="Message" required></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="contact-right">
+      <div class="contact-card">
+
+        <!-- INNER CARD -->
+        <div class="contact-inner-card">
+          <h3>Get in touch with us!</h3>
+
+          <div class="contact-info">
+            <div class="info-item">
+              <span class="icon-circle">
+                <i class="fa-regular fa-envelope"></i>
+              </span>
+              <p>info@doa.com</p>
+            </div>
+
+            <div class="info-item">
+              <span class="icon-circle">
+                <i class="fa-solid fa-phone"></i>
+              </span>
+              <p>+234 812 345 6789</p>
+            </div>
+
+            <div class="info-item">
+              <span class="icon-circle">
+                <i class="fa-solid fa-location-dot"></i>
+              </span>
+              <p>Trade Fair Market, Lagos</p>
+            </div>
+          </div>
+
+          <!-- EDGE DOTS -->
+          <span class="edge-dot top"></span>
+          <span class="edge-dot bottom"></span>
+          <span class="edge-dot left"></span>
+          <span class="edge-dot right"></span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="newsletter-card">
+    <div class="newsletter-content">
+      <div class="newsletter-text">
+        <h2>Subscribe to our newsletter</h2>
+        <p>Get the best perfumes and skin care products from us</p>
+      </div>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Enter your email" class="email-input" />
+        <button class="subscribe-btn">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-main">
+    <div class="footer-left">
+      <img src="footer logo.png" alt="Brand Logo" class="footer-logo" />
+      <p>Where fragrance meets beauty,<br>
+        crafted for everyday moments.</p>
+
+      <div class="social-icons">
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <div class="link-group">
+        <h4>Features</h4>
+        <a href="perfume.html">Perfumes</a>
+        <a href="cosmetic.html">Cosmetics</a>
+      </div>
+
+      <div class="link-group">
+        <h4>Support</h4>
+        <a href="#">Help</a>
+        <a href="#">FAQs</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="link-group">
+        <h4>Legal</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+  <p>© DOA Perfumes & Cosmetics <span id="year"></span>. All rights reserved.</p>
+</div>
+</footer>
+
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+menuToggle.onclick = () => navLinks.classList.toggle('active');
+
+const contactSection = document.querySelector('.contact-section');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+}, { threshold: 0.3 });
+
+observer.observe(contactSection);
+
+</script>
+
+</body>
+</html>

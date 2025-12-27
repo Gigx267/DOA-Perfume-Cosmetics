@@ -1,0 +1,1084 @@
+
+<audio id="bgMusic" loop>
+    <source src="mj (1).mp3" type="audio/mpeg">
+    <source src="mj (1).mp3" type="audio/ogg">
+</audio>
+
+<style>
+    :root {
+        --parchment: #f4ece0;
+        --sepia-dark: #5d4037;
+        --sepia-medium: #bc9e82;
+    }
+
+    #music-controls {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: var(--parchment);
+        padding: 8px 12px;
+        border: 1px solid var(--sepia-medium);
+        outline: 3px solid var(--parchment);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        font-family: 'Georgia', serif;
+        /* Subtle flicker animation kept for character */
+        animation: vintageFlicker 8s infinite;
+    }
+
+    /* Small "Atmosphere" label */
+    #music-controls span {
+        font-size: 11px;
+        color: var(--sepia-dark);
+        font-style: italic;
+        text-transform: lowercase;
+        border-right: 1px solid var(--sepia-medium);
+        padding-right: 8px;
+        white-space: nowrap;
+    }
+
+    #music-controls button {
+        background: transparent;
+        border: none;
+        color: var(--sepia-dark);
+        cursor: pointer;
+        font-family: inherit;
+        font-variant: small-caps;
+        font-size: 11px;
+        padding: 2px 4px;
+        transition: all 0.2s ease;
+    }
+
+    #music-controls button:hover {
+        background: var(--sepia-dark);
+        color: var(--parchment);
+    }
+
+    @keyframes vintageFlicker {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.96; }
+    }
+</style>
+
+<script>
+    window.addEventListener('load', function() {
+        const bgMusic = document.getElementById('bgMusic');
+        const playPromise = bgMusic.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => createMusicControls(true))
+                       .catch(() => createMusicControls(false));
+        }
+    });
+
+    function createMusicControls(isPlaying) {
+        if (document.getElementById('music-controls')) return;
+
+        const container = document.createElement('div');
+        container.id = 'music-controls';
+        container.innerHTML = `
+            <span>audio</span>
+            <button id="toggleBtn">${isPlaying ? 'Pause' : 'Play'}</button>
+            <button id="muteBtn">Mute</button>
+        `;
+        
+        document.body.appendChild(container);
+
+        const music = document.getElementById('bgMusic');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const muteBtn = document.getElementById('muteBtn');
+
+        toggleBtn.onclick = () => {
+            if (music.paused) {
+                music.play();
+                toggleBtn.innerText = "Pause";
+            } else {
+                music.pause();
+                toggleBtn.innerText = "Play";
+            }
+        };
+
+        muteBtn.onclick = () => {
+            music.muted = !music.muted;
+            muteBtn.innerText = music.muted ? "Unmute" : "Mute";
+        };
+    }
+</script>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About Us - DOA PERFUME & COSMETICS</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+<style>
+  /* Base Styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  body {
+    background: #f5f2ee;
+    color: #3A2E2A;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Navigation - Same as home page */
+  :root {
+    --nav-bg: #3A2E2A;
+    --accent: #E6D8C3;
+    --text-white: #ffffff;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .navbar {
+    position: sticky;
+    top: 1rem;
+    z-index: 1000;
+    background: var(--nav-bg);
+    padding: 0.75rem 2rem;
+    margin: 1rem auto;
+    border-radius: 50px;
+    max-width: 95%;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    animation: navFade 0.8s ease forwards;
+  }
+
+  @keyframes navFade {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .nav-container {
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo-img { 
+    height: 50px; 
+    width: auto; 
+    transition: var(--transition); 
+  }
+  
+  .logo-img:hover { 
+    transform: scale(1.05); 
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .main-nav { 
+    display: flex; 
+    gap: 2rem; 
+  }
+
+  .nav-links a {
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    position: relative;
+    transition: var(--transition);
+  }
+
+  /* Underline Hover Effect */
+  .main-nav a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: var(--accent);
+    transition: var(--transition);
+  }
+
+  .main-nav a:hover { 
+    color: var(--accent); 
+  }
+  
+  .main-nav a:hover::after { 
+    width: 100%; 
+  }
+
+  /* Icon Styling */
+  .icon-group { 
+    display: flex; 
+    gap: 1.5rem; 
+    align-items: center; 
+  }
+  
+  .icon-link i { 
+    font-size: 1.2rem; 
+  }
+  
+  .icon-link:hover { 
+    color: var(--accent); 
+    transform: translateY(-2px); 
+  }
+
+  .cart-icon { 
+    position: relative; 
+  }
+  
+  .cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: var(--accent);
+    color: var(--nav-bg);
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+  }
+
+  /* Mobile Responsive Logic */
+  @media (max-width: 992px) {
+    .menu-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      transition: var(--transition);
+    }
+
+    .nav-links {
+      position: absolute;
+      top: 120%;
+      right: 0;
+      background: var(--nav-bg);
+      flex-direction: column;
+      width: 250px;
+      padding: 2rem;
+      border-radius: 20px;
+      transform: translateX(120%);
+      transition: var(--transition);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .nav-links.active { 
+      transform: translateX(0); 
+    }
+    
+    .main-nav { 
+      flex-direction: column; 
+      gap: 1.5rem; 
+      text-align: center; 
+    }
+  }
+
+  /* ================= ABOUT HERO ================= */
+  .about-hero {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 2rem;
+  }
+
+  .about-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+    z-index: -1;
+  }
+
+  .about-hero-content {
+    text-align: center;
+    color: #fff;
+    max-width: 800px;
+    padding: 2rem;
+    z-index: 2;
+  }
+
+  .about-hero-content h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .about-hero-content p {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+
+  /* ================= OUR STORY ================= */
+  .our-story {
+    padding: 6rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+    color: #3A2E2A;
+  }
+
+  .section-header p {
+    max-width: 600px;
+    margin: 0 auto;
+    color: #74625c;
+    font-size: 1.1rem;
+  }
+
+  .story-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .story-text h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #3A2E2A;
+  }
+
+  .story-text p {
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: #5a4a45;
+  }
+
+  .story-image {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+  }
+
+  .story-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .story-image:hover img {
+    transform: scale(1.03);
+  }
+
+  /* ================= OUR VALUES ================= */
+  .our-values {
+    background: #E6D8C3;
+    padding: 6rem 1.5rem;
+  }
+
+  .values-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  .value-card {
+    background: #fff;
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .value-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  }
+
+  .value-icon {
+    width: 70px;
+    height: 70px;
+    background: #3A2E2A;
+    color: #E6D8C3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.8rem;
+  }
+
+  .value-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #3A2E2A;
+  }
+
+  .value-card p {
+    color: #5a4a45;
+    line-height: 1.7;
+  }
+
+  /* ================= OUR TEAM ================= */
+  .our-team {
+    padding: 6rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  .team-card {
+    text-align: center;
+  }
+
+  .team-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 1.5rem;
+    border: 5px solid #E6D8C3;
+  }
+
+  .team-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .team-card:hover .team-image img {
+    transform: scale(1.1);
+  }
+
+  .team-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #3A2E2A;
+  }
+
+  .team-card p {
+    color: #74625c;
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  /* ================= LOCATION ================= */
+  .location {
+    background: #3A2E2A;
+    color: #fff;
+    padding: 6rem 1.5rem;
+  }
+
+  .location-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .location-text h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 1.5rem;
+    color: #E6D8C3;
+  }
+
+  .location-text p {
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+
+  .location-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .detail-icon {
+    width: 50px;
+    height: 50px;
+    background: #E6D8C3;
+    color: #3A2E2A;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .detail-text h4 {
+    margin-bottom: 0.3rem;
+    color: #E6D8C3;
+  }
+
+  .location-map {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  }
+
+  .location-map img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 900px) {
+    .story-content {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .location-container {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .location-text {
+      order: 2;
+    }
+
+    .location-map {
+      order: 1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .about-hero {
+      height: 60vh;
+    }
+
+    .values-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ================= FOOTER ================= */
+  .footer {
+    background-color: #E6D8C3;
+    padding: 4rem 1.5rem 2rem;
+    font-family: "Poppins", sans-serif;
+    color: #333;
+  }
+
+  /* Newsletter Card */
+  .newsletter-card {
+    background-color: #3A2E2A;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 4rem;
+    width: 90%;
+    max-width: 1000px;
+  }
+
+  .newsletter-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 950px;
+    color: #fff;
+  }
+
+  .newsletter-text {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .newsletter-text h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-text p {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    line-height: 1.6;
+  }
+
+  .newsletter-form {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3rem;
+    padding: 0.3rem 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .email-input {
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    outline: none;
+    border-radius: 2rem;
+    color: #fff;
+    width: 220px;
+    backdrop-filter: blur(8px);
+  }
+
+  .email-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .subscribe-btn {
+    background-color: #E6D8C3;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.8rem 1.6rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .subscribe-btn:hover {
+    transform: scale(1.05);
+    background-color: #f6ead8;
+  }
+
+  /* Footer Main */
+  .footer-main {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: auto;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 3rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    gap: 3rem;
+  }
+
+  .footer-left {
+    flex: 1;
+    min-width: 250px;
+    text-align: left;
+  }
+
+  .footer-logo {
+    width: 150px;
+    margin-bottom: 1rem;
+  }
+
+  .footer-left p {
+    font-size: 0.9rem;
+    color: #0F0F0F;
+    margin-bottom: 1rem;
+  }
+
+  /* Social Media */
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .social-link {
+    color: #3A2E2A;
+    font-size: 1.4rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  .social-link:hover {
+    color: #74625c;
+    transform: scale(1.1);
+  }
+
+  /* Footer Links */
+  .footer-links {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .link-group h4 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #3A2E2A;
+    font-weight: 600;
+  }
+
+  .link-group a {
+    display: block;
+    text-decoration: none;
+    color: #0F0F0F;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+  }
+
+  .link-group a:hover {
+    color: #373737;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .newsletter-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .newsletter-form {
+      width: 100%;
+    }
+
+    .footer-main {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+
+    .footer-links {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .footer-left {
+      text-align: left;
+    }
+  }
+
+  .footer-bottom {
+    text-align: center;
+    color: #333;
+    font-size: 0.9rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0.9;
+  }
+
+  /* Reveal Animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="Brand Logo" class="logo-img">
+    </a>
+
+    <div class="nav-links" id="navLinks">
+      <div class="main-nav">
+        <a href="index.html">HOME</a>
+        <a href="about.html" style="color: #E6D8C3;">ABOUT</a>
+        <a href="perfume.html">PERFUMES</a>
+        <a href="cosmetic.html">COSMETICS</a>
+        <a href="contact.html">CONTACT</a>
+      </div>
+      
+      <div class="icon-group">
+   
+        </a>
+      </div>
+    </div>
+
+    <div class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- About Hero Section -->
+  <section class="about-hero">
+    <img src="ae (5).jpg" alt="DOA Perfume & Cosmetics store interior" class="about-hero-bg">
+    <div class="about-hero-content">
+      <h1>Our Story</h1>
+      <p>Where fragrance meets beauty, crafted for everyday moments. Discover the journey of DOA Perfume & Cosmetics, born from a passion for elegance and sophistication.</p>
+    </div>
+  </section>
+
+  <!-- Our Story Section -->
+  <section class="our-story reveal">
+    <div class="section-header">
+      <h2>The DOA Journey</h2>
+      <p>From a small boutique to a beloved destination for luxury fragrances and beauty essentials</p>
+    </div>
+    
+    <div class="story-content">
+      <div class="story-text">
+        <h3>Our Beginning</h3>
+        <p>DOA Perfume & Cosmetics began  in the heart of the Trade Fair Market, founded  to
+           bring exceptional, 
+          curated fragrances and beauty products to our community.</p>
+        <p>What started as a passion project quickly grew into a beloved destination
+           for those seeking quality, authenticity, and personal connection in their 
+           beauty and fragrance purchases.</p>
+        <p>Today, we remain dedicated to our founding principles while continuously
+           evolving to meet the needs of our discerning customers.</p>
+      </div>
+      
+      <div class="story-image">
+        <img src="xf (4).jpg" alt="DOA store interior and products">
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Values Section -->
+  <section class="our-values reveal">
+    <div class="values-container">
+      <div class="section-header">
+        <h2>Our Values</h2>
+        <p>The principles that guide everything we do at DOA Perfume & Cosmetics</p>
+      </div>
+      
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <h3>Quality & Craftsmanship</h3>
+          <p>We meticulously select each product based on its ingredients, craftsmanship, and performance, ensuring only the finest items reach our customers.</p>
+        </div>
+        
+        <div class="value-card">
+          <div class="value-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>Personalized Service</h3>
+          <p>Our knowledgeable team provides tailored recommendations and guidance to help each customer find products that truly resonate with their unique style.</p>
+        </div>
+        
+        <div class="value-card">
+          <div class="value-icon">
+            <i class="fas fa-leaf"></i>
+          </div>
+          <h3>Sustainability</h3>
+          <p>We prioritize eco-friendly brands and packaging, believing that beauty should enhance both personal well-being and environmental health.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ 
+
+  <!-- Location Section -->
+  <section class="location reveal">
+    <div class="location-container">
+      <div class="location-text">
+        <h2>Visit Our Store</h2>
+        <p>Experience DOA Perfume & Cosmetics in person at our flagship location in the Trade Fair Market. Our knowledgeable staff is ready to guide you through our curated collections and help you find your signature scent or perfect beauty product.</p>
+        
+        <div class="location-details">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="detail-text">
+              <h4>Our Location</h4>
+              <p>Trade Fair Market, Lagos, Nigeria</p>
+            </div>
+          </div>
+          
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="detail-text">
+              <h4>Opening Hours</h4>
+              <p>Monday - Saturday: 9am - 8pm</p>
+              <p>Sunday: 11am - 6pm</p>
+            </div>
+          </div>
+          
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="detail-text">
+              <h4>Contact Us</h4>
+              <p> +234 803 881 0268</p>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="location-map">
+        <img src="ht (5).jpg" alt="Trade Fair Market location">
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="newsletter-card">
+    <div class="newsletter-content">
+      <div class="newsletter-text">
+        <h2>Subscribe to our newsletter</h2>
+        <p>Get the best perfumes and skin care products from us</p>
+      </div>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Enter your email" class="email-input" />
+        <button class="subscribe-btn">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-main">
+    <div class="footer-left">
+      <img src="footer logo.png" alt="Brand Logo" class="footer-logo" />
+      <p>Where fragrance meets beauty,<br>
+        crafted for everyday moments.</p>
+
+      <div class="social-icons">
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <div class="link-group">
+        <h4>Features</h4>
+        <a href="perfume.html">Perfumes</a>
+        <a href="cosmetic.html">Cosmetics</a>
+      </div>
+
+      <div class="link-group">
+        <h4>Support</h4>
+        <a href="#">Help</a>
+        <a href="#">FAQs</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="link-group">
+        <h4>Legal</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© DOA Perfumes & Cosmetics <span id="year"></span>. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.onclick = () => navLinks.classList.toggle('active');
+
+  // Scroll reveal animation
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  reveals.forEach(section => observer.observe(section));
+
+  // Set current year in footer
+  document.getElementById("year").textContent = new Date().getFullYear();
+  
+  // Add smooth scrolling for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      if(targetId === '#') return;
+      
+      const targetElement = document.querySelector(targetId);
+      if(targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 100,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
