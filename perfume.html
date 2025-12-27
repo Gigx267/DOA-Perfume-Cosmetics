@@ -1,0 +1,2418 @@
+
+<audio id="bgMusic" loop>
+    <source src="mj (1).mp3" type="audio/mpeg">
+    <source src="mj (1).mp3" type="audio/ogg">
+</audio>
+
+<style>
+    :root {
+        --parchment: #f4ece0;
+        --sepia-dark: #5d4037;
+        --sepia-medium: #bc9e82;
+    }
+
+    #music-controls {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: var(--parchment);
+        padding: 8px 12px;
+        border: 1px solid var(--sepia-medium);
+        outline: 3px solid var(--parchment);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        font-family: 'Georgia', serif;
+        /* Subtle flicker animation kept for character */
+        animation: vintageFlicker 8s infinite;
+    }
+
+    /* Small "Atmosphere" label */
+    #music-controls span {
+        font-size: 11px;
+        color: var(--sepia-dark);
+        font-style: italic;
+        text-transform: lowercase;
+        border-right: 1px solid var(--sepia-medium);
+        padding-right: 8px;
+        white-space: nowrap;
+    }
+
+    #music-controls button {
+        background: transparent;
+        border: none;
+        color: var(--sepia-dark);
+        cursor: pointer;
+        font-family: inherit;
+        font-variant: small-caps;
+        font-size: 11px;
+        padding: 2px 4px;
+        transition: all 0.2s ease;
+    }
+
+    #music-controls button:hover {
+        background: var(--sepia-dark);
+        color: var(--parchment);
+    }
+
+    @keyframes vintageFlicker {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.96; }
+    }
+</style>
+
+<script>
+    window.addEventListener('load', function() {
+        const bgMusic = document.getElementById('bgMusic');
+        const playPromise = bgMusic.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => createMusicControls(true))
+                       .catch(() => createMusicControls(false));
+        }
+    });
+
+    function createMusicControls(isPlaying) {
+        if (document.getElementById('music-controls')) return;
+
+        const container = document.createElement('div');
+        container.id = 'music-controls';
+        container.innerHTML = `
+            <span>audio</span>
+            <button id="toggleBtn">${isPlaying ? 'Pause' : 'Play'}</button>
+            <button id="muteBtn">Mute</button>
+        `;
+        
+        document.body.appendChild(container);
+
+        const music = document.getElementById('bgMusic');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const muteBtn = document.getElementById('muteBtn');
+
+        toggleBtn.onclick = () => {
+            if (music.paused) {
+                music.play();
+                toggleBtn.innerText = "Pause";
+            } else {
+                music.pause();
+                toggleBtn.innerText = "Play";
+            }
+        };
+
+        muteBtn.onclick = () => {
+            music.muted = !music.muted;
+            muteBtn.innerText = music.muted ? "Unmute" : "Mute";
+        };
+    }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Perfumes - DOA PERFUME & COSMETICS</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+<style>
+
+
+/* ================= CART SECTION - UPDATED ================= */
+.cart-section {
+  flex: 1;
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  height: fit-content;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 120px; /* Adjusted to account for navbar */
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+/* Make sure cart items don't overflow */
+.cart-items {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+}
+
+/* Adjust for mobile */
+@media (max-width: 1024px) {
+  .cart-section {
+    position: static;
+    margin-top: 3rem;
+    max-height: none;
+  }
+  
+  .cart-items {
+    max-height: 400px;
+  }
+}
+  /* Base Styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  body {
+    background: #f5f2ee;
+    color: #3A2E2A;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Navigation - Same as home page */
+  :root {
+    --nav-bg: #3A2E2A;
+    --accent: #E6D8C3;
+    --text-white: #ffffff;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .navbar {
+    position: sticky;
+    top: 1rem;
+    z-index: 1000;
+    background: var(--nav-bg);
+    padding: 0.75rem 2rem;
+    margin: 1rem auto;
+    border-radius: 50px;
+    max-width: 95%;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    animation: navFade 0.8s ease forwards;
+  }
+
+  @keyframes navFade {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .nav-container {
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo-img { 
+    height: 50px; 
+    width: auto; 
+    transition: var(--transition); 
+  }
+  
+  .logo-img:hover { 
+    transform: scale(1.05); 
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .main-nav { 
+    display: flex; 
+    gap: 2rem; 
+  }
+
+  .nav-links a {
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    position: relative;
+    transition: var(--transition);
+  }
+
+  /* Underline Hover Effect */
+  .main-nav a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: var(--accent);
+    transition: var(--transition);
+  }
+
+  .main-nav a:hover { 
+    color: var(--accent); 
+  }
+  
+  .main-nav a:hover::after { 
+    width: 100%; 
+  }
+
+  /* Icon Styling */
+  .icon-group { 
+    display: flex; 
+    gap: 1.5rem; 
+    align-items: center; 
+  }
+  
+  .icon-link i { 
+    font-size: 1.2rem; 
+  }
+  
+  .icon-link:hover { 
+    color: var(--accent); 
+    transform: translateY(-2px); 
+  }
+
+  .cart-icon { 
+    position: relative; 
+  }
+  
+  .cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: var(--accent);
+    color: var(--nav-bg);
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+  }
+
+  /* Mobile Responsive Logic */
+  @media (max-width: 992px) {
+    .menu-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      transition: var(--transition);
+    }
+
+    .nav-links {
+      position: absolute;
+      top: 120%;
+      right: 0;
+      background: var(--nav-bg);
+      flex-direction: column;
+      width: 250px;
+      padding: 2rem;
+      border-radius: 20px;
+      transform: translateX(120%);
+      transition: var(--transition);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .nav-links.active { 
+      transform: translateX(0); 
+    }
+    
+    .main-nav { 
+      flex-direction: column; 
+      gap: 1.5rem; 
+      text-align: center; 
+    }
+  }
+
+  /* ================= PERFUMES HERO ================= */
+  .perfumes-hero {
+    position: relative;
+    height: 60vh;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 2rem;
+    border-radius: 30px;
+    width: 95%;
+    max-width: 1200px;
+    margin: 2rem auto;
+  }
+
+  .perfumes-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+    z-index: -1;
+    border-radius: 30px;
+  }
+
+  .perfumes-hero-content {
+    text-align: center;
+    color: #fff;
+    max-width: 800px;
+    padding: 2rem;
+    z-index: 2;
+  }
+
+  .perfumes-hero-content h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .perfumes-hero-content p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ================= MAIN LAYOUT ================= */
+  .store-container {
+    display: flex;
+    max-width: 1400px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    gap: 3rem;
+  }
+
+  /* ================= PRODUCTS SECTION ================= */
+  .products-section {
+    flex: 2;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+    color: #3A2E2A;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-header p {
+    color: #74625c;
+    font-size: 1.1rem;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .product-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  }
+
+  .product-image {
+    height: 250px;
+    overflow: hidden;
+  }
+
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .product-card:hover .product-image img {
+    transform: scale(1.05);
+  }
+
+  .product-info {
+    padding: 1.5rem;
+  }
+
+  .product-info h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: #3A2E2A;
+  }
+
+  .product-info p {
+    color: #74625c;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .product-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #3A2E2A;
+    margin-bottom: 1rem;
+  }
+
+  .product-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f5f2ee;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+  }
+
+  .quantity-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #3A2E2A;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+  }
+
+  .quantity-btn:hover {
+    background: #E6D8C3;
+  }
+
+  .quantity-input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    background: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #3A2E2A;
+  }
+
+  .add-to-cart-btn {
+    flex: 1;
+    background: #3A2E2A;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 0.8rem 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .add-to-cart-btn:hover {
+    background: #4a3a34;
+    transform: translateY(-2px);
+  }
+
+  .add-to-cart-btn.added {
+    background: #D4AF37;
+  }
+
+  /* ================= CART SECTION ================= */
+  .cart-section {
+    flex: 1;
+    background: #fff;
+    border-radius: 20px;
+    padding: 2rem;
+    height: fit-content;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 120px;
+  }
+
+  .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .cart-header h2 {
+    font-size: 1.8rem;
+    color: #3A2E2A;
+  }
+
+  .clear-cart-btn {
+    background: none;
+    border: none;
+    color: #74625c;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+
+  .clear-cart-btn:hover {
+    color: #3A2E2A;
+  }
+
+  .cart-items {
+    margin-bottom: 2rem;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f5f2ee;
+  }
+
+  .cart-item-info h4 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    color: #3A2E2A;
+  }
+
+  .cart-item-info p {
+    font-size: 0.9rem;
+    color: #74625c;
+  }
+
+  .cart-item-price {
+    font-weight: 600;
+    color: #3A2E2A;
+  }
+
+  .cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .cart-item-quantity button {
+    background: #f5f2ee;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cart-total {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #E6D8C3;
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .grand-total {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #3A2E2A;
+  }
+
+  /* ================= ORDER FORM ================= */
+  .order-form {
+    margin-top: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #3A2E2A;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: #3A2E2A;
+  }
+
+  .submit-order-btn {
+    width: 100%;
+    background: #D4AF37;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    margin-top: 1rem;
+  }
+
+  .submit-order-btn:hover {
+    background: #c19b2a;
+    transform: translateY(-2px);
+  }
+
+  .submit-order-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ================= EMPTY CART ================= */
+  .empty-cart {
+    text-align: center;
+    padding: 2rem;
+    color: #74625c;
+  }
+
+  .empty-cart i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #E6D8C3;
+  }
+
+  /* ================= FOOTER ================= */
+  .footer {
+    background-color: #E6D8C3;
+    padding: 4rem 1.5rem 2rem;
+    font-family: "Poppins", sans-serif;
+    color: #333;
+    margin-top: 5rem;
+  }
+
+  /* Newsletter Card */
+  .newsletter-card {
+    background-color: #3A2E2A;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 4rem;
+    width: 90%;
+    max-width: 1000px;
+  }
+
+  .newsletter-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 950px;
+    color: #fff;
+  }
+
+  .newsletter-text {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .newsletter-text h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-text p {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    line-height: 1.6;
+  }
+
+  .newsletter-form {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3rem;
+    padding: 0.3rem 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .email-input {
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    outline: none;
+    border-radius: 2rem;
+    color: #fff;
+    width: 220px;
+    backdrop-filter: blur(8px);
+  }
+
+  .email-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .subscribe-btn {
+    background-color: #E6D8C3;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.8rem 1.6rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .subscribe-btn:hover {
+    transform: scale(1.05);
+    background-color: #f6ead8;
+  }
+
+  /* Footer Main */
+  .footer-main {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: auto;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 3rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    gap: 3rem;
+  }
+
+  .footer-left {
+    flex: 1;
+    min-width: 250px;
+    text-align: left;
+  }
+
+  .footer-logo {
+    width: 150px;
+    margin-bottom: 1rem;
+  }
+
+  .footer-left p {
+    font-size: 0.9rem;
+    color: #0F0F0F;
+    margin-bottom: 1rem;
+  }
+
+  /* Social Media */
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .social-link {
+    color: #3A2E2A;
+    font-size: 1.4rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  .social-link:hover {
+    color: #74625c;
+    transform: scale(1.1);
+  }
+
+  /* Footer Links */
+  .footer-links {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .link-group h4 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #3A2E2A;
+    font-weight: 600;
+  }
+
+  .link-group a {
+    display: block;
+    text-decoration: none;
+    color: #0F0F0F;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+  }
+
+  .link-group a:hover {
+    color: #373737;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .newsletter-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .newsletter-form {
+      width: 100%;
+    }
+
+    .footer-main {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+
+    .footer-links {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .footer-left {
+      text-align: left;
+    }
+  }
+
+  .footer-bottom {
+    text-align: center;
+    color: #333;
+    font-size: 0.9rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0.9;
+  }
+
+  /* ================= RESPONSIVE LAYOUT ================= */
+  @media (max-width: 1024px) {
+    .store-container {
+      flex-direction: column;
+    }
+
+    .cart-section {
+      position: static;
+      margin-top: 3rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .products-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .perfumes-hero {
+      height: 50vh;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .product-actions {
+      flex-direction: column;
+    }
+
+    .quantity-selector {
+      justify-content: center;
+    }
+  }
+
+  /* ================= NOTIFICATION ================= */
+  .notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #3A2E2A;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 10000;
+    max-width: 300px;
+  }
+
+  .notification.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* WhatsApp Floating Button */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #25D366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+    z-index: 1000;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
+  }
+</style>
+</head>
+
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="Brand Logo" class="logo-img">
+    </a>
+
+    <div class="nav-links" id="navLinks">
+      <div class="main-nav">
+        <a href="index.html">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="perfume.html" style="color: #E6D8C3;">PERFUMES</a>
+        <a href="cosmetic.html">COSMETICS</a>
+        <a href="contact.html">CONTACT</a>
+      </div>
+      
+      <div class="icon-group">
+       
+        <a href="#cart-section" class="icon-link cart-icon" aria-label="Cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cartCount">0</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Animated Cart Button -->
+<!-- Animated Cart Button -->
+<div class="cart-float-container">
+  <a href="#cart-section" class="cart-float" id="cartFloatBtn" title="View Cart & Checkout">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count" id="cartFloatCount">0</span>
+  </a>
+  <div class="cart-tooltip">View Cart</div>
+</div>
+
+<style>
+.cart-float-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.cart-float {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #8B5A2B, #6B451E);
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 28px;
+  box-shadow: 0 4px 15px rgba(139, 90, 43, 0.4);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.cart-float:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(139, 90, 43, 0.5);
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  min-width: 28px;
+  height: 28px;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  border: 3px solid white;
+  animation: pulse 2s infinite;
+}
+
+.cart-tooltip {
+  position: absolute;
+  right: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(58, 46, 42, 0.9);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.cart-float-container:hover .cart-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+</style>
+
+<script>
+// Floating cart button functionality
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize floating cart button
+  updateFloatingCartCount();
+  
+  // Smooth scroll to cart section when clicking the floating cart button
+  const cartFloatBtn = document.getElementById('cartFloatBtn');
+  if (cartFloatBtn) {
+    cartFloatBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const cartSection = document.querySelector('.cart-section');
+      if (cartSection) {
+        cartSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+        
+        // Add a highlight effect to draw attention
+        cartSection.style.boxShadow = '0 0 0 4px rgba(212, 175, 55, 0.5)';
+        setTimeout(() => {
+          cartSection.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+        }, 1500);
+      }
+    });
+  }
+});
+
+// Function to update floating cart count
+function updateFloatingCartCount() {
+  const cart = JSON.parse(localStorage.getItem('doaCart')) || [];
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  
+  // Update floating button count
+  const cartFloatCount = document.getElementById('cartFloatCount');
+  if (cartFloatCount) {
+    cartFloatCount.textContent = totalItems;
+    cartFloatCount.style.display = totalItems > 0 ? 'flex' : 'none';
+  }
+  
+  // Also update navbar cart count (if it exists)
+  const navCartCount = document.querySelector('.cart-icon span') || document.getElementById('cartCount');
+  if (navCartCount) {
+    navCartCount.textContent = totalItems;
+    navCartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+  }
+}
+
+// Function to update ALL cart counts (call this after any cart operation)
+function updateAllCartCounts() {
+  updateFloatingCartCount();
+  
+  // Also update the count in your existing updateCartCount function if it exists
+  const cart = JSON.parse(localStorage.getItem('doaCart')) || [];
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  
+  // Update any other cart count elements
+  document.querySelectorAll('.cart-count, #cartCount').forEach(element => {
+    if (element.id !== 'cartFloatCount') { // Don't update the floating one twice
+      element.textContent = totalItems;
+      element.style.display = totalItems > 0 ? 'flex' : 'none';
+    }
+  });
+}
+</script>
+
+
+<!-- Perfumes Hero -->
+<section class="perfumes-hero">
+  <img src="ae (1).jpg" alt="Perfume Collection" class="perfumes-hero-bg">
+  <div class="perfumes-hero-content">
+    <h1>Signature Fragrances</h1>
+    <p>Discover our exclusive collection of luxury perfumes, each crafted to tell a unique story and leave a lasting impression.</p>
+  </div>
+</section>
+
+<!-- Main Store Content -->
+<div class="store-container">
+  <!-- Products Section -->
+  <section class="products-section">
+    <div class="section-header">
+      <h2>Our Perfume Collection</h2>
+      <p>Select your favorite fragrances and add them to your order</p>
+    </div>
+
+    <div class="products-grid" id="productsGrid">
+      <!-- Products will be dynamically loaded here -->
+    </div>
+  </section>
+
+  <!-- Cart & Order Section -->
+  <section class="cart-section">
+    <div class="cart-header">
+      <h2>Your Order</h2>
+      <button class="clear-cart-btn" id="clearCartBtn">Clear All</button>
+    </div>
+
+    <div class="cart-items" id="cartItems">
+      <!-- Cart items will be dynamically loaded here -->
+      <div class="empty-cart" id="emptyCart">
+        <i class="fas fa-shopping-cart"></i>
+        <p>Your cart is empty</p>
+        <p>Add perfumes from the collection</p>
+      </div>
+    </div>
+
+    <div class="cart-total" id="cartTotal" style="display: none;">
+      <div class="total-row">
+        <span>Subtotal:</span>
+        <span id="subtotal">₦0</span>
+      </div>
+      <div class="total-row">
+        <span>Delivery Fee:</span>
+        <span>₦2,500</span>
+      </div>
+      <div class="total-row grand-total">
+        <span>Total:</span>
+        <span id="grandTotal">₦2,500</span>
+      </div>
+    </div>
+
+    <!-- Order Form -->
+    <div class="order-form" id="orderForm" style="display: none;">
+      <h3 style="margin-bottom: 1.5rem; color: #3A2E2A;">Delivery Information</h3>
+      
+      <div class="form-group">
+        <label for="customerName">Full Name *</label>
+        <input type="text" id="customerName" class="form-control" placeholder="Enter your full name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="customerPhone">Phone Number *</label>
+        <input type="tel" id="customerPhone" class="form-control" placeholder="Enter your phone number" required>
+      </div>
+
+      <div class="form-group">
+        <label for="customerEmail">Email Address</label>
+        <input type="email" id="customerEmail" class="form-control" placeholder="Enter your email (optional)">
+      </div>
+
+      <div class="form-group">
+        <label for="customerAddress">Delivery Address *</label>
+        <textarea id="customerAddress" class="form-control" rows="3" placeholder="Enter your complete delivery address" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="deliveryNotes">Additional Notes</label>
+        <textarea id="deliveryNotes" class="form-control" rows="2" placeholder="Any special delivery instructions?"></textarea>
+      </div>
+
+      <button class="submit-order-btn" id="submitOrderBtn">Place Order via WhatsApp</button>
+      <p style="font-size: 0.8rem; color: #74625c; margin-top: 1rem; text-align: center;">
+        Your order will be sent directly to our WhatsApp for immediate processing.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- Notification -->
+<div class="notification" id="notification"></div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="newsletter-card">
+    <div class="newsletter-content">
+      <div class="newsletter-text">
+        <h2>Subscribe to our newsletter</h2>
+        <p>Get the best perfumes and skin care products from us</p>
+      </div>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Enter your email" class="email-input" />
+        <button class="subscribe-btn">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-main">
+    <div class="footer-left">
+      <img src="footer logo.png" alt="Brand Logo" class="footer-logo" />
+      <p>Where fragrance meets beauty,<br>
+        crafted for everyday moments.</p>
+
+      <div class="social-icons">
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/2348038810268" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <div class="link-group">
+        <h4>Features</h4>
+        <a href="perfume.html">Perfumes</a>
+        <a href="cosmetic.html">Cosmetics</a>
+      </div>
+
+      <div class="link-group">
+        <h4>Support</h4>
+        <a href="#">Help</a>
+        <a href="#">FAQs</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="link-group">
+        <h4>Legal</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© DOA Perfumes & Cosmetics <span id="year"></span>. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // Products Data
+  const products = [
+    {
+      id: 1,
+      name: "HIS CONFESSION",
+      description: "Eau de parfum • 100ml",
+      price: 70000,
+      image: "HIS CONFESSION1.png",
+      hoverImage: "HIS CONFESSIO2.png"
+    },
+    {
+      id: 2,
+      name: "RAYHAAN ELIXIR",
+      description: "Eau de parfum • 100ml",
+      price: 49999,
+      image: "RAYHAAN1.png",
+      hoverImage: "RAYHAAN2.png"
+    },
+    {
+      id: 3,
+      name: "VINTAGE RADIO",
+      description: "Eau de parfum • 100ml",
+      price: 59999,
+      image: "VINTAGE RADIO1.png",
+      hoverImage: "VINTAGE RADIO2.png"
+    },
+    {
+      id: 4,
+      name: "Club De Nuit ",
+      description: "Armaf Club De Nuit Intense Man EDT 105ml ",
+      price: 69000,
+      image: "https://i.pinimg.com/736x/54/08/7e/54087e5eb3e464a56a6dc8af76332965.jpg", 
+      hoverImage: "https://www.essenza.ng/cdn/shop/products/Untitleddesign_54.jpg?v=1741701445&width=800 "
+    },
+    {
+      id: 5,
+      name: "AFNAN 9 Pm ",
+      description: "AFNAN 9 Pm For Men EDP 100ML",
+      price: 55000,
+      image: "https://i.pinimg.com/1200x/ec/a5/d6/eca5d64ab005ed4e650b475eb636b87b.jpg",
+      hoverImage: "https://i.pinimg.com/1200x/ec/a5/d6/eca5d64ab005ed4e650b475eb636b87b.jpg"
+    },
+    {
+      id: 6,
+      name: "Oud Touch",
+      description: "FRANCK OLIVIER Oud Touch EDP ",
+      price: 75000,
+      image: "https://i.pinimg.com/1200x/ff/e4/05/ffe40509bfadf2865e604830dfb72bc4.jpg",
+      hoverImage: "https://i.pinimg.com/1200x/a4/30/6c/a4306c1b92bc406dd763a2fec1ff7fbd.jpg"
+    },
+    {
+      id: 7,
+      name: "Paco Rabanne 1 Million",
+      description: "Paco Rabanne 1 Million EDP 100ml",
+      price: 85000,
+      image: "https://i.pinimg.com/1200x/c7/59/d7/c759d782fbece9ee710f25ef68839fc5.jpg",
+      hoverImage: "https://i.pinimg.com/1200x/c7/59/d7/c759d782fbece9ee710f25ef68839fc5.jpg"
+    },
+    {
+      id: 8,
+      name: "Dior Sauvage",
+      description: "Dior Sauvage EDP 100ml",
+      price: 95000,
+      image: "https://i.pinimg.com/1200x/a3/6a/66/a36a66b1ec2be547f34d6dfda6c66cbd.jpg",
+      hoverImage: "https://i.pinimg.com/736x/20/9b/ab/209babaa25546b47ba7a8270cb2c5ea5.jpg "
+    },
+    {
+      "id": 9,
+      "name": "Bleu de Chanel",
+      "description": "Chanel Bleu de Chanel Parfum 100ml",
+      "price": 125000,
+      "image": "https://i.pinimg.com/736x/ec/2e/0d/ec2e0de97a384efdf986a0aa5824b060.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/ec/2e/0d/ec2e0de97a384efdf986a0aa5824b060.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Versace Eros Flame",
+      "description": "Versace Eros Flame EDP 100ml",
+      "price": 85000,
+      "image": "https://i.pinimg.com/736x/94/37/86/943786159d2ea934ffe778fa1e970bd2.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/94/37/86/943786159d2ea934ffe778fa1e970bd2.jpg"
+    },
+    {
+      "id": 11,
+      "name": "JPG Le Male Elixir",
+      "description": "Jean Paul Gaultier Le Male Elixir 125ml",
+      "price": 115000,
+      "image": "https://i.pinimg.com/1200x/3a/87/4b/3a874bb172cb4409fb70fc09c97d87a4.jpg",
+      "hoverImage": "https://i.pinimg.com/1200x/3a/87/4b/3a874bb172cb4409fb70fc09c97d87a4.jpg"
+    },
+    {
+      "id": 12,
+      "name": "Stronger With You",
+      "description": "Emporio Armani Stronger With You Intensely 100ml",
+      "price": 98000,
+      "image": "https://i.pinimg.com/736x/f1/9e/a5/f19ea5a5f4132c0a69688eef58a6d3a1.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/f1/9e/a5/f19ea5a5f4132c0a69688eef58a6d3a1.jpg "
+    },
+    {
+      "id": 13,
+      "name": "Born In Roma",
+      "description": "Valentino Uomo Born In Roma Intense 100ml",
+      "price": 110000,
+      "image": "https://i.pinimg.com/736x/f1/fc/31/f1fc314b6576a60dcb90362905549031.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/f1/fc/31/f1fc314b6576a60dcb90362905549031.jpg "
+    },
+    {
+      "id": 14,
+      "name": "YSL Y EDP",
+      "description": "Yves Saint Laurent Y Eau de Parfum 100ml",
+      "price": 105000,
+      "image": "https://i.pinimg.com/1200x/14/c9/22/14c9221a53f0eca2dc15db08937d103d.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/14/c9/22/14c9221a53f0eca2dc15db08937d103d.jpg "
+    },
+    {
+      "id": 15,
+      "name": "Spicebomb Extreme",
+      "description": "Viktor&Rolf Spicebomb Extreme EDP 90ml",
+      "price": 92000,
+      "image": " https://i.pinimg.com/736x/61/01/1d/61011d21da1e8e47e724b31aabad8163.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/61/01/1d/61011d21da1e8e47e724b31aabad8163.jpg "
+    },
+    {
+      "id": 16,
+      "name": "Ombré Leather",
+      "description": "Tom Ford Ombré Leather EDP 100ml",
+      "price": 185000,
+      "image": "https://i.pinimg.com/736x/45/ab/3d/45ab3d975bf50256d9e1d051de672595.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/45/ab/3d/45ab3d975bf50256d9e1d051de672595.jpg "
+    },
+    {
+      "id": 17,
+      "name": "Baccarat Rouge 540",
+      "description": "Maison Francis Kurkdjian BR 540 EDP 70ml",
+      "price": 350000,
+      "image": "https://i.pinimg.com/736x/c9/f2/5d/c9f25db6b44cc105923ba4496627e7af.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/c9/f2/5d/c9f25db6b44cc105923ba4496627e7af.jpg"
+    },
+
+
+    {
+      "id": 18,
+      "name": "KHAMRAH QAHWA",
+      "description": "Lattafa Khamrah Qahwa (Coffee Edition) EDP 100ml",
+      "price": 68000,
+      "image": "https://i.pinimg.com/1200x/76/24/0d/76240d926916f74418c11549cfc0afdd.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/76/24/0d/76240d926916f74418c11549cfc0afdd.jpg "
+    },
+    {
+      "id": 19,
+      "name": "CEDRAT BOISE",
+      "description": "Mancera Cedrat Boise EDP 120ml",
+      "price": 95000,
+      "image": "https://i.pinimg.com/736x/2c/ee/be/2ceebea08603007a263bb513bbf862ba.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/2c/ee/be/2ceebea08603007a263bb513bbf862ba.jpg "
+    },
+    {
+      "id": 20,
+      "name": "VALENTINO CORAL FANTASY",
+      "description": "Valentino Donna Born In Roma Coral Fantasy 100ml",
+      "price": 115000,
+      "image": "https://i.pinimg.com/736x/f6/bc/ec/f6bcec59a66a1fe53eea6b64f683a7bc.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/f6/bc/ec/f6bcec59a66a1fe53eea6b64f683a7bc.jpg "
+    },
+    {
+      "id": 21,
+      "name": "ERBA PURA",
+      "description": "Xerjoff V Erba Pura EDP 100ml",
+      "price": 195000,
+      "image": "https://i.pinimg.com/1200x/47/01/7a/47017a87fd7c9443a69bd5b9c80f7926.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/47/01/7a/47017a87fd7c9443a69bd5b9c80f7926.jpg "
+    },
+    {
+      "id": 22,
+      "name": "DELINA",
+      "description": "Parfums de Marly Delina EDP 75ml",
+      "price": 210000,
+      "image": "https://i.pinimg.com/736x/4f/72/ac/4f72ac309a5b48053a37f78742c1d13f.jpg",
+      "hoverImage": " https://i.pinimg.com/736x/4f/72/ac/4f72ac309a5b48053a37f78742c1d13f.jpg"
+    },
+    {
+      "id": 23,
+      "name": "PRADA PARADOXE",
+      "description": "Prada Paradoxe Eau de Parfum 90ml",
+      "price": 120000,
+      "image": "https://i.pinimg.com/736x/21/2d/aa/212daa30b88afc7800939950fa0eec34.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/21/2d/aa/212daa30b88afc7800939950fa0eec34.jpg"
+    },
+    {
+      "id": 24,
+      "name": "AZZARO MOST WANTED",
+      "description": "Azzaro The Most Wanted Parfum 100ml",
+      "price": 95000,
+      "image": "https://i.pinimg.com/736x/65/5b/b5/655bb558c6c2d1b2816b6ccc906a26f5.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/65/5b/b5/655bb558c6c2d1b2816b6ccc906a26f5.jpg "
+    },
+    {
+      "id": 25,
+      "name": "KIRKE",
+      "description": "Tiziana Terenzi Kirke Extrait De Parfum 100ml",
+      "price": 135000,
+      "image": "https://i.pinimg.com/736x/d7/c9/34/d7c93422020639aff2f4829ba79948d0.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/d7/c9/34/d7c93422020639aff2f4829ba79948d0.jpg "
+    },
+    {
+      "id": 26,
+      "name": "MON GUERLAIN",
+      "description": "Guerlain Mon Guerlain EDP 100ml",
+      "price": 105000,
+      "image": "https://i.pinimg.com/736x/93/12/1a/93121a2220afb96a81271cb24b40a8d6.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/93/12/1a/93121a2220afb96a81271cb24b40a8d6.jpg "
+    },
+    {
+      "id": 27,
+      "name": "HONEY AOUD",
+      "description": "Montale Honey Aoud EDP 100ml",
+      "price": 88000,
+      "image": "https://i.pinimg.com/736x/f4/93/af/f493afba3478ea03603719fa42caa291.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/f4/93/af/f493afba3478ea03603719fa42caa291.jpg "
+    },
+    {
+      "id": 28,
+      "name": "SCANDAL ABSORU",
+      "description": "Jean Paul Gaultier Scandal Absolu 100ml",
+      "price": 118000,
+      "image": "https://i.pinimg.com/736x/0c/08/aa/0c08aaa560af4799b2dd09fe1801ccce.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/0c/08/aa/0c08aaa560af4799b2dd09fe1801ccce.jpg "
+    },
+    {
+      "id": 29,
+      "name": "ARABIANS TONKA",
+      "description": "Montale Arabians Tonka EDP 100ml",
+      "price": 92000,
+      "image": "https://i.pinimg.com/1200x/3f/22/15/3f22159d64e964116e81bc058216934e.jpg",
+      "hoverImage": "https://i.pinimg.com/1200x/3f/22/15/3f22159d64e964116e81bc058216934e.jpg"
+    },
+    {
+      "id": 30,
+      "name": "LAYTON",
+      "description": "Parfums de Marly Layton EDP 125ml",
+      "price": 245000,
+      "image": " https://i.pinimg.com/736x/db/f8/fb/dbf8fbd0a7d00f54a42d334651641f54.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/db/f8/fb/dbf8fbd0a7d00f54a42d334651641f54.jpg"
+    },
+    {
+      "id": 31,
+      "name": "FAKHAR BLACK",
+      "description": "Lattafa Fakhar Black EDP 100ml (YSL Y Clone)",
+      "price": 42000,
+      "image": "https://i.pinimg.com/736x/8d/55/0d/8d550dcc7aaafff0189023cc90f82ad3.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/8d/55/0d/8d550dcc7aaafff0189023cc90f82ad3.jpg "
+    },
+    {
+      "id": 32,
+      "name": "BADE'E AL OUD HONOR & GLORY",
+      "description": "Lattafa Honor & Glory EDP 100ml (Pineapple/Creme Brulee)",
+      "price": 55000,
+      "image": " https://i.pinimg.com/1200x/6c/38/b5/6c38b5b8d204ba10b5e1419b3443c74d.jpg",
+      "hoverImage": "https://i.pinimg.com/1200x/6c/38/b5/6c38b5b8d204ba10b5e1419b3443c74d.jpg "
+    },
+    {
+      "id": 33,
+      "name": "YARA TOUS",
+      "description": "Lattafa Yara Tous (Yellow) EDP 100ml (Mango/Coconut)",
+      "price": 45000,
+      "image": "https://i.pinimg.com/1200x/c7/87/1d/c7871d7ace05bc1ba4677fe7f7b5c6b6.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/c7/87/1d/c7871d7ace05bc1ba4677fe7f7b5c6b6.jpg "
+    },
+    {
+      "id": 34,
+      "name": "CLUB DE NUIT MILESTONE",
+      "description": "Armaf Club De Nuit Milestone EDP 105ml",
+      "price": 65000,
+      "image": "https://i.pinimg.com/736x/64/ef/dd/64efddbeab710bd7dca867c32544e902.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/64/ef/dd/64efddbeab710bd7dca867c32544e902.jpg "
+    },
+    {
+      "id": 35,
+      "name": "PORTO NEROLI",
+      "description": "Maison Alhambra Porto Neroli EDP 80ml",
+      "price": 38000,
+      "image": "https://i.pinimg.com/1200x/32/03/e3/3203e3ccb0968dd5abdddcae5ead34ab.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/32/03/e3/3203e3ccb0968dd5abdddcae5ead34ab.jpg "
+    },
+    {
+      "id": 36,
+      "name": "RARE CARBON",
+      "description": "Afnan Rare Carbon EDP 100ml (Leather/Oud)",
+      "price": 52000,
+      "image": "https://i.pinimg.com/736x/4c/d3/1b/4cd31b16f5f83e136cac560517a1e154.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/4c/d3/1b/4cd31b16f5f83e136cac560517a1e154.jpg "
+    },
+    {
+      "id": 37,
+      "name": "MAAHIR LEGACY",
+      "description": "Lattafa Maahir Legacy EDP 100ml (PDM Sedley Clone)",
+      "price": 48000,
+      "image": "https://i.pinimg.com/1200x/0f/9a/d8/0f9ad8d1c03d5a3c101fbfa629199c0b.jpg",
+      "hoverImage": "https://i.pinimg.com/1200x/0f/9a/d8/0f9ad8d1c03d5a3c101fbfa629199c0b.jpg "
+    },
+    {
+      "id": 38,
+      "name": "INVICTUS VICTORY ELIXIR",
+      "description": "Paco Rabanne Invictus Victory Elixir Parfum 100ml",
+      "price": 105000,
+      "image": "https://i.pinimg.com/736x/00/30/38/0030387d8186215d45691b3a4895d4f0.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/00/30/38/0030387d8186215d45691b3a4895d4f0.jpg "
+    },
+    {
+      "id": 39,
+      "name": "MY WAY",
+      "description": "Giorgio Armani My Way EDP 90ml",
+      "price": 112000,
+      "image": "https://i.pinimg.com/1200x/96/48/9e/96489e8a138e4ec5104821722f0a612e.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/96/48/9e/96489e8a138e4ec5104821722f0a612e.jpg "
+    },
+    {
+      "id": 40,
+      "name": "ACQUA DI GIO PROFONDO",
+      "description": "Giorgio Armani ADG Profondo EDP 125ml",
+      "price": 118000,
+      "image": " https://i.pinimg.com/736x/f5/1c/d0/f51cd03fed4aae5e3bcf9846ad3443f1.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/f5/1c/d0/f51cd03fed4aae5e3bcf9846ad3443f1.jpg "
+    },
+    {
+      "id": 41,
+      "name": "LIAM GREY",
+      "description": "Lattafa Liam Grey EDP 100ml (Gris Charnel Clone)",
+      "price": 46000,
+      "image": "https://i.pinimg.com/1200x/67/cc/91/67cc91acdd25d8032c4429ff4f05af8d.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/67/cc/91/67cc91acdd25d8032c4429ff4f05af8d.jpg "
+    },
+    {
+      "id": 42,
+      "name": "TERRE D'HERMES",
+      "description": "Hermès Terre d'Hermès Pure Parfum 75ml",
+      "price": 125000,
+      "image": "https://i.pinimg.com/1200x/da/df/47/dadf477724531948fb70acf452203b74.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/da/df/47/dadf477724531948fb70acf452203b74.jpg "
+    },
+    {
+      "id": 43,
+      "name": "SI PASSIONE",
+      "description": "Giorgio Armani Si Passione EDP 100ml",
+      "price": 130000,
+      "image": "https://i.pinimg.com/736x/be/2e/49/be2e49c3219d045a4a3f7d201e437438.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/be/2e/49/be2e49c3219d045a4a3f7d201e437438.jpg "
+    },
+    {
+      "id": 44,
+      "name": "SANTAL 33",
+      "description": "Le Labo Santal 33 EDP 100ml",
+      "price": 285000,
+      "image": "https://i.pinimg.com/1200x/d0/5c/82/d05c8296286390ccda396f686e4f216d.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/d0/5c/82/d05c8296286390ccda396f686e4f216d.jpg "
+    },
+    {
+      "id": 45,
+      "name": "YARA CANDY",
+      "description": "Lattafa Yara Candy EDP 100ml (New Release 2024)",
+      "price": 50000,
+      "image": "https://i.pinimg.com/736x/e3/9e/4a/e39e4a34cc13dc9d80838c945f3511c1.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/e3/9e/4a/e39e4a34cc13dc9d80838c945f3511c1.jpg"
+    },
+    {
+      "id": 46,
+      "name": "VERSACE DYLAN BLUE",
+      "description": "Versace Dylan Blue Pour Homme EDT 100ml",
+      "price": 78000,
+      "image": "https://i.pinimg.com/736x/a2/08/4c/a2084c9b6488e39de82445124e8c1ed5.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/a2/08/4c/a2084c9b6488e39de82445124e8c1ed5.jpg "
+    },
+    {
+      "id": 47,
+      "name": "LIBRE INTENSE",
+      "description": "YSL Libre Intense EDP 90ml",
+      "price": 145000,
+      "image": "https://i.pinimg.com/1200x/e0/d5/ac/e0d5ac46e014751a19c510ae79871308.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/e0/d5/ac/e0d5ac46e014751a19c510ae79871308.jpg "
+    },
+    {
+      "id": 48,
+      "name": "BAD BOY EXTREME",
+      "description": "Carolina Herrera Bad Boy Extreme EDP 100ml",
+      "price": 110000,
+      "image": "https://i.pinimg.com/1200x/1f/7c/4a/1f7c4a3047611bcea0c293a98a126bff.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/1f/7c/4a/1f7c4a3047611bcea0c293a98a126bff.jpg "
+    },
+    {
+      "id": 49,
+      "name": "ECLAIRE",
+      "description": "Lattafa Eclaire EDP 100ml (Bianco Latte Clone)",
+      "price": 62000,
+      "image": " https://i.pinimg.com/1200x/2d/07/59/2d0759c6cc8f9d7177139b1adb9f6913.jpg",
+      "hoverImage": "https://i.pinimg.com/1200x/2d/07/59/2d0759c6cc8f9d7177139b1adb9f6913.jpg "
+    },
+    {
+      "id": 50,
+      "name": "AMEDEE D'OR",
+      "description": "Fragrance World Amedee D'or Parfum 100ml",
+      "price": 75000,
+      "image": "https://i.pinimg.com/1200x/aa/6b/fe/aa6bfe102894ac3e23e209ad36e429dd.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/aa/6b/fe/aa6bfe102894ac3e23e209ad36e429dd.jpg "
+    },
+    {
+      "id": 51,
+      "name": "ISHQ AL SHUYUKH GOLD",
+      "description": "Lattafa Pride EDP 100ml (Leather/Vanilla/Suede)",
+      "price": 58000,
+      "image": "https://i.pinimg.com/736x/65/e9/6e/65e96e4b84f239066e10e770d8ecd53f.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/65/e9/6e/65e96e4b84f239066e10e770d8ecd53f.jpg "
+    },
+    {
+      "id": 52,
+      "name": "KISMET MAGIC",
+      "description": "Maison Alhambra EDP 100ml (Angels' Share Clone)",
+      "price": 45000,
+      "image": " https://i.pinimg.com/736x/89/49/7d/89497d708922f2c8dbf465e43201ed16.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/89/49/7d/89497d708922f2c8dbf465e43201ed16.jpg "
+    },
+    {
+      "id": 53,
+      "name": "9AM DIVE",
+      "description": "Afnan 9AM Dive EDP 100ml (Blue Fresh Aquatic)",
+      "price": 48000,
+      "image": " https://i.pinimg.com/1200x/a8/56/7c/a8567c50f7e70aa9be6ade177db3c456.jpg",
+      "hoverImage": "https://i.pinimg.com/1200x/a8/56/7c/a8567c50f7e70aa9be6ade177db3c456.jpg "
+    },
+    {
+      "id": 54,
+      "name": "SHUHRAH POUR HOMME",
+      "description": "Rasasi Shuhrah EDP 90ml (Nuclear Performance)",
+      "price": 35000,
+      "image": "https://i.pinimg.com/1200x/4d/ea/a1/4deaa1d2ead586493e664043d376885c.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/4d/ea/a1/4deaa1d2ead586493e664043d376885c.jpg "
+    },
+    {
+      "id": 55,
+      "name": "HARDCORE WOOD",
+      "description": "Fragrance World EDP 100ml (Bvlgari Tygar/Oud)",
+      "price": 42000,
+      "image": "https://i.pinimg.com/736x/93/e9/3f/93e93f185b1264a0fa4edad225578d34.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/93/e9/3f/93e93f185b1264a0fa4edad225578d34.jpg"
+    },
+    {
+      "id": 56,
+      "name": "AJAYEB DUBAI PORTRAIT",
+      "description": "Lattafa White Portrait EDP 100ml (Mango/Oud)",
+      "price": 52000,
+      "image": "https://i.pinimg.com/1200x/6b/06/c4/6b06c4a17d9d0575a84a43086dd1e6fa.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/6b/06/c4/6b06c4a17d9d0575a84a43086dd1e6fa.jpg "
+    },
+    {
+      "id": 57,
+      "name": "URBAN ELIXIR",
+      "description": "Armaf Club de Nuit Urban Elixir 105ml",
+      "price": 65000,
+      "image": "https://i.pinimg.com/736x/73/cf/81/73cf8121fee4f33955ef8e36f07c7e74.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/73/cf/81/73cf8121fee4f33955ef8e36f07c7e74.jpg "
+    },
+    {
+      "id": 58,
+      "name": "BARAKKAT ROUGE 540",
+      "description": "Fragrance World EDP 100ml (BR540 Clone)",
+      "price": 38000,
+      "image": "https://i.pinimg.com/736x/bd/36/4d/bd364da65c8c4e0ba7c92d35976f24b9.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/bd/36/4d/bd364da65c8c4e0ba7c92d35976f24b9.jpg "
+    },
+    {
+      "id": 59,
+      "name": "RA'ED LUXE",
+      "description": "Lattafa Ra'ed Luxe EDP 100ml (Fresh/Spicy)",
+      "price": 28000,
+      "image": "https://i.pinimg.com/1200x/c3/4f/22/c34f227d396cd9cbcb67509e276da178.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/c3/4f/22/c34f227d396cd9cbcb67509e276da178.jpg"
+    },
+    {
+      "id": 60,
+      "name": "HAWAS BLACK",
+      "description": "Rasasi Hawas Black 2024 Release 100ml",
+      "price": 95000,
+      "image": "https://i.pinimg.com/1200x/ec/fb/87/ecfb87c48dff5a8a97f0ac9c5d7cde06.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/ec/fb/87/ecfb87c48dff5a8a97f0ac9c5d7cde06.jpg "
+    },
+    {
+      "id": 61,
+      "name": "VALENTINO BORN IN ROMA",
+      "description": "Valentino Uomo Born In Roma EDP 100ml",
+      "price": 105000,
+      "image": "https://i.pinimg.com/1200x/41/43/cb/4143cbe55ec40d3c832d8a11b8952f31.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/41/43/cb/4143cbe55ec40d3c832d8a11b8952f31.jpg "
+    },
+    {
+      "id": 62,
+      "name": "POLO RED PARFUM",
+      "description": "Ralph Lauren Polo Red Parfum 100ml",
+      "price": 88000,
+      "image": "https://i.pinimg.com/1200x/38/35/d3/3835d3357341fad03f32706e70d2ab40.jpg ",
+      "hoverImage": " https://i.pinimg.com/1200x/38/35/d3/3835d3357341fad03f32706e70d2ab40.jpg"
+    },
+   
+    {
+      "id": 66,
+      "name": "TERIAQ INTENSE",
+      "description": "Lattafa Teriaq Intense 100ml (2025 Release)",
+      "price": 65000,
+      "image": "https://i.pinimg.com/1200x/4d/f1/a8/4df1a8ff9e7d8ebde5797b9989d02d55.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/4d/f1/a8/4df1a8ff9e7d8ebde5797b9989d02d55.jpg "
+    },
+    {
+      "id": 67,
+      "name": "TURATHI ELECTRIC",
+      "description": "Afnan Turathi Electric EDP 90ml (2025 Release)",
+      "price": 58000,
+      "image": "https://i.pinimg.com/736x/91/9a/40/919a40c29a7553afbfde744d411a3ddc.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/91/9a/40/919a40c29a7553afbfde744d411a3ddc.jpg "
+    },
+    {
+      "id": 68,
+      "name": "DOLCE&GABBANA K",
+      "description": "Dolce&Gabbana K EDP 100ml",
+      "price": 130000,
+      "image": "https://i.pinimg.com/1200x/47/46/df/4746dfdd82e773b12edba7b61904268f.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/47/46/df/4746dfdd82e773b12edba7b61904268f.jpg "
+    },
+  
+    {
+      "id": 69,
+      "name": "DOLCE&GABBANA THE ONE",
+      "description": "Dolce&Gabbana The One EDP 100ml",
+      "price": 125000,
+      "image": "https://i.pinimg.com/736x/73/9e/fb/739efba5d02c2cfb0c156e114189432a.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/73/9e/fb/739efba5d02c2cfb0c156e114189432a.jpg "
+    },
+    {
+      "id": 70,
+      "name": "BLEU DE CHANEL EDP",
+      "description": "Chanel Bleu De Chanel EDP 100ml",
+      "price": 150000,
+      "image": "https://i.pinimg.com/1200x/02/e3/28/02e3285f7531be6a22703203b9b2ecaf.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/02/e3/28/02e3285f7531be6a22703203b9b2ecaf.jpg "
+    },
+    {
+      "id": 71,
+      "name": "DOLCE&GABBANA LIGHT BLUE",
+      "description": "Dolce&Gabbana Light Blue EDP 100ml",
+      "price": 120000,
+      "image": " https://i.pinimg.com/736x/34/72/ec/3472ec02c6f79b62b4e852520b935436.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/34/72/ec/3472ec02c6f79b62b4e852520b935436.jpg "
+    },
+    {
+      "id": 72,
+      "name": "GIVENCHY GENTLEMAN EDP",
+      "description": "Givenchy Gentleman EDP 100ml",
+      "price": 140000,
+      "image": " https://i.pinimg.com/736x/70/5c/5c/705c5c2f3c9096595e2328e68fe3b357.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/70/5c/5c/705c5c2f3c9096595e2328e68fe3b357.jpg"
+    },
+    
+    {
+      "id": 74,
+      "name": "VERSACE EROS EDP",
+      "description": "Versace Eros Eau de Parfum 100ml",
+      "price": 82000,
+      "image": "https://i.pinimg.com/736x/67/96/7f/67967fe0c3212ccb2ee2a3051c4a27db.jpg ",
+      "hoverImage": " https://i.pinimg.com/736x/67/96/7f/67967fe0c3212ccb2ee2a3051c4a27db.jpg"
+    },
+    {
+      "id": 75,
+      "name": "VALENTINO YELLOW DREAM",
+      "description": "Valentino Uomo Born In Roma Yellow Dream 100ml",
+      "price": 105000,
+      "image": "https://i.pinimg.com/736x/61/e2/b5/61e2b5bc4141681bda5b93a12c0cc1f5.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/61/e2/b5/61e2b5bc4141681bda5b93a12c0cc1f5.jpg"
+    },
+   
+    {
+      "id": 77,
+      "name": "BRIGHT PEACH",
+      "description": "Maison Alhambra EDP 80ml (TF Bitter Peach Clone)",
+      "price": 35000,
+      "image": "https://i.pinimg.com/1200x/25/75/17/257517dc827079786492c59d9d55d118.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/25/75/17/257517dc827079786492c59d9d55d118.jpg "
+    },
+    {
+      "id": 78,
+      "name": "MISS DIOR",
+      "description": "Dior Miss Dior EDP 100ml",
+      "price": 135000,
+      "image": "https://i.pinimg.com/1200x/34/ff/86/34ff865965c331181dd24d966437cab3.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/34/ff/86/34ff865965c331181dd24d966437cab3.jpg "
+    },
+    {
+      "id": 79,
+      "name": "YSL MYSELF",
+      "description": "Yves Saint Laurent MYSLF EDP 100ml",
+      "price": 115000,
+      "image": "https://i.pinimg.com/736x/9b/6c/37/9b6c3736530a6a6cd26194c33356274a.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/9b/6c/37/9b6c3736530a6a6cd26194c33356274a.jpg "
+    },
+    {
+      "id": 80,
+      "name": "COCO MADEMOISELLE",
+      "description": "Chanel Coco Mademoiselle EDP 100ml",
+      "price": 155000,
+      "image": "https://i.pinimg.com/736x/e8/be/b5/e8beb56a9b2fbdeb6a50842b4f3389f1.jpg ",
+      "hoverImage": " https://i.pinimg.com/736x/e8/be/b5/e8beb56a9b2fbdeb6a50842b4f3389f1.jpg"
+    },
+    
+    {
+      "id": 82,
+      "name": "SAVA",
+      "description": "Fragrance World Sava EDP 100ml (Gris Charnel Twist)",
+      "price": 48000,
+      "image": "https://i.pinimg.com/736x/23/c5/a4/23c5a410198c0dc46a00cfe5ff1422ee.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/23/c5/a4/23c5a410198c0dc46a00cfe5ff1422ee.jpg "
+    },
+    {
+      "id": 83,
+      "name": "MONTBLANC EXPLORER",
+      "description": "Montblanc Explorer EDP 100ml",
+      "price": 75000,
+      "image": "https://i.pinimg.com/736x/eb/55/24/eb55244dc9597313e85634f7e7c83ea7.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/eb/55/24/eb55244dc9597313e85634f7e7c83ea7.jpg "
+    },
+    {
+      "id": 84,
+      "name": "NAXOS",
+      "description": "Xerjoff 1861 Naxos EDP 100ml",
+      "price": 265000,
+      "image": "https://i.pinimg.com/736x/77/9c/8e/779c8e96796395788e99999a8738871a.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/77/9c/8e/779c8e96796395788e99999a8738871a.jpg"
+    },
+   
+    {
+      "id": 86,
+      "name": "BADE'E AL OUD AMETHYST",
+      "description": "Lattafa Amethyst EDP 100ml (Atomic Rose Style)",
+      "price": 42000,
+      "image": "https://i.pinimg.com/1200x/31/46/8a/31468ad8e67e914a4eddc5693a2477bb.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/31/46/8a/31468ad8e67e914a4eddc5693a2477bb.jpg "
+    },
+    {
+      "id": 87,
+      "name": "RA'ED SILVER",
+      "description": "Lattafa Ra'ed Silver EDP 100ml (Cedrat Boise Style)",
+      "price": 32000,
+      "image": "https://i.pinimg.com/1200x/39/80/a4/3980a41a020d37400f568ec6c2826dfa.jpg",
+      "hoverImage": "https://i.pinimg.com/1200x/39/80/a4/3980a41a020d37400f568ec6c2826dfa.jpg "
+    },
+    {
+      "id": 88,
+      "name": "QAED AL FURSAN",
+      "description": "Lattafa Qaed Al Fursan EDP 100ml (Pure Pineapple)",
+      "price": 28000,
+      "image": "https://i.pinimg.com/1200x/75/00/c3/7500c364107c102e661e762e69311490.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/75/00/c3/7500c364107c102e661e762e69311490.jpg "
+    },
+    {
+      "id": 89,
+      "name": "GOOD GIRL",
+      "description": "Carolina Herrera Good Girl EDP 80ml",
+      "price": 125000,
+      "image": " https://i.pinimg.com/736x/d4/1d/59/d41d594e2f6c8f2d018c8684f2ffb271.jpg",
+      "hoverImage": "https://i.pinimg.com/736x/d4/1d/59/d41d594e2f6c8f2d018c8684f2ffb271.jpg "
+    },
+    {
+      "id": 90,
+      "name": "BLACK ORCHID",
+      "description": "Tom Ford Black Orchid EDP 100ml",
+      "price": 165000,
+      "image": "https://i.pinimg.com/1200x/29/ee/22/29ee229155f896d320c1f93fd437a178.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/29/ee/22/29ee229155f896d320c1f93fd437a178.jpg "
+    },
+    {
+      "id": 91,
+      "name": "DOLCE&GABBANA POUR FEMME",
+      "description": "Dolce&Gabbana Pour Femme EDP 100ml",
+      "price": 130000,
+      "image": "https://i.pinimg.com/736x/98/49/39/9849394a14bfabcbb75c8e464ac090b8.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/98/49/39/9849394a14bfabcbb75c8e464ac090b8.jpg "
+    },
+    {
+      "id": 92,
+      "name": "J'ADORE",
+      "description": "Dior J'adore EDP 100ml",
+      "price": 140000,
+      "image": "https://i.pinimg.com/736x/9d/35/64/9d356437bbb22a48dcc23dea23228ed5.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/9d/35/64/9d356437bbb22a48dcc23dea23228ed5.jpg "
+    },
+    {
+      "id": 93,
+      "name": "MON PARIS",
+      "description": "Yves Saint Laurent Mon Paris EDP 90ml",
+      "price": 125000,
+      "image": "https://i.pinimg.com/1200x/19/1a/1f/191a1fce1a2f4ec93b28b6ef759b2689.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/19/1a/1f/191a1fce1a2f4ec93b28b6ef759b2689.jpg "
+    },
+    {
+      "id": 94,
+      "name": "BLACK OPIUM",
+      "description": "Yves Saint Laurent Black Opium EDP 90ml",
+      "price": 130000,
+      "image": "https://i.pinimg.com/736x/6c/8c/76/6c8c768d2316dda6b14ebe91179faae9.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/6c/8c/76/6c8c768d2316dda6b14ebe91179faae9.jpg "
+    },
+    {
+      "id": 95,
+      "name": "THE ONE ROYAL NIGHT",
+      "description": "Dolce & Gabbana The One Royal Night 100ml",
+      "price": 140000,
+      "image": "https://i.pinimg.com/1200x/65/57/63/655763090fab08feeea03cb97b13d5ea.jpg ",
+      "hoverImage": " https://i.pinimg.com/1200x/65/57/63/655763090fab08feeea03cb97b13d5ea.jpg"
+    },
+    {
+      "id": 96,
+      "name": "POLO BLUE",
+      "description": "Ralph Lauren Polo Blue EDP 100ml",
+      "price": 90000,
+      "image": "https://i.pinimg.com/736x/0c/3a/47/0c3a47dc227c788eacc5f1d31bc47049.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/0c/3a/47/0c3a47dc227c788eacc5f1d31bc47049.jpg "
+    },
+    {
+      "id": 97,
+      "name": "GANYMEDE",
+      "description": "Marc-Antoine Barrois Ganymede EDP 100ml",
+      "price": 240000,
+      "image": "https://i.pinimg.com/736x/10/d2/82/10d2826e572cdd321920c2013e2c0a71.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/10/d2/82/10d2826e572cdd321920c2013e2c0a71.jpg "
+    },
+    {
+      "id": 98,
+      "name": "POLO BLACK",
+      "description": "Ralph Lauren Polo Black EDP 100ml",
+      "price": 85000,
+      "image": "https://i.pinimg.com/736x/2b/ed/ff/2bedff1e2c6e4e6e8e8e8e8e8e8e8e8e.jpg ",
+      "hoverImage": "https://i.pinimg.com/736x/2b/ed/ff/2bedff1e2c6e4e6e8e8e8e8e8e8e8e8e.jpg "
+    },
+    {
+      "id": 99,
+      "name": "L'AVENTURE",
+      "description": "Al Haramain L'Aventure EDP 100ml (Aventus Clone)",
+      "price": 55000,
+      "image": "https://i.pinimg.com/1200x/51/6c/7f/516c7fd2b251580dcb38fc64f3bfeeed.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/51/6c/7f/516c7fd2b251580dcb38fc64f3bfeeed.jpg "
+    },
+    {
+      "id": 100,
+      "name": "YARA MOI",
+      "description": "Lattafa Yara Moi (White) EDP 100ml (Peach/Caramel)",
+      "price": 45000,
+      "image": "https://i.pinimg.com/1200x/d5/00/40/d5004067c270757a5915304146e8553e.jpg ",
+      "hoverImage": "https://i.pinimg.com/1200x/d5/00/40/d5004067c270757a5915304146e8553e.jpg "
+    }
+  ];
+
+  // Cart state
+  let cart = JSON.parse(localStorage.getItem('doaCart')) || [];
+
+  // DOM elements
+  const productsGrid = document.getElementById('productsGrid');
+  const cartItems = document.getElementById('cartItems');
+  const emptyCart = document.getElementById('emptyCart');
+  const cartTotal = document.getElementById('cartTotal');
+  const orderForm = document.getElementById('orderForm');
+  const cartCount = document.getElementById('cartCount');
+  const clearCartBtn = document.getElementById('clearCartBtn');
+  const submitOrderBtn = document.getElementById('submitOrderBtn');
+  const notification = document.getElementById('notification');
+
+  // Initialize the page
+  document.addEventListener('DOMContentLoaded', function() {
+    renderProducts();
+    renderCart();
+    updateCartCount();
+    
+    // Set current year
+    document.getElementById("year").textContent = new Date().getFullYear();
+    
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.onclick = () => navLinks.classList.toggle('active');
+  });
+
+  // Render products
+  function renderProducts() {
+    productsGrid.innerHTML = '';
+    
+    products.forEach(product => {
+      const productCard = document.createElement('div');
+      productCard.className = 'product-card';
+      productCard.innerHTML = `
+        <div class="product-image">
+          <img src="${product.image}" alt="${product.name}">
+        </div>
+        <div class="product-info">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <div class="product-price">₦${product.price.toLocaleString()}</div>
+          <div class="product-actions">
+            <div class="quantity-selector">
+              <button class="quantity-btn minus" data-id="${product.id}">-</button>
+              <input type="text" class="quantity-input" id="qty-${product.id}" value="1" readonly>
+              <button class="quantity-btn plus" data-id="${product.id}">+</button>
+            </div>
+            <button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+          </div>
+        </div>
+      `;
+      productsGrid.appendChild(productCard);
+    });
+
+    // Add event listeners for quantity buttons
+    document.querySelectorAll('.quantity-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const productId = parseInt(this.getAttribute('data-id'));
+        const input = document.getElementById(`qty-${productId}`);
+        let value = parseInt(input.value);
+        
+        if (this.classList.contains('minus') && value > 1) {
+          input.value = value - 1;
+        } else if (this.classList.contains('plus')) {
+          input.value = value + 1;
+        }
+      });
+    });
+
+    // Add event listeners for add to cart buttons
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const productId = parseInt(this.getAttribute('data-id'));
+        const product = products.find(p => p.id === productId);
+        const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
+        
+        addToCart(product, quantity);
+        
+        // Show added feedback
+        this.textContent = 'Added!';
+        this.classList.add('added');
+        setTimeout(() => {
+          this.textContent = 'Add to Cart';
+          this.classList.remove('added');
+        }, 1500);
+      });
+    });
+  }
+
+  // Add item to cart
+  function addToCart(product, quantity) {
+    const existingItem = cart.find(item => item.id === product.id);
+    
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cart.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: quantity
+      });
+    }
+    
+    saveCart();
+    renderCart();
+    updateCartCount();
+    showNotification(`${product.name} added to cart`);
+  }
+
+  // Render cart
+  function renderCart() {
+    cartItems.innerHTML = '';
+    
+    if (cart.length === 0) {
+      emptyCart.style.display = 'block';
+      cartTotal.style.display = 'none';
+      orderForm.style.display = 'none';
+    } else {
+      emptyCart.style.display = 'none';
+      cartTotal.style.display = 'block';
+      orderForm.style.display = 'block';
+      
+      let subtotal = 0;
+      
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+        
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+          <div class="cart-item-info">
+            <h4>${item.name}</h4>
+            <p>₦${item.price.toLocaleString()} × ${item.quantity}</p>
+          </div>
+          <div class="cart-item-quantity">
+            <button class="decrease-qty" data-id="${item.id}">-</button>
+            <span>${item.quantity}</span>
+            <button class="increase-qty" data-id="${item.id}">+</button>
+          </div>
+          <div class="cart-item-price">₦${itemTotal.toLocaleString()}</div>
+        `;
+        cartItems.appendChild(cartItem);
+      });
+
+      // Add event listeners for quantity adjustments in cart
+      document.querySelectorAll('.decrease-qty').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const productId = parseInt(this.getAttribute('data-id'));
+          updateCartItemQuantity(productId, -1);
+        });
+      });
+
+      document.querySelectorAll('.increase-qty').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const productId = parseInt(this.getAttribute('data-id'));
+          updateCartItemQuantity(productId, 1);
+        });
+      });
+
+      // Update totals
+      const deliveryFee = 2500;
+      const grandTotal = subtotal + deliveryFee;
+      
+      document.getElementById('subtotal').textContent = `₦${subtotal.toLocaleString()}`;
+      document.getElementById('grandTotal').textContent = `₦${grandTotal.toLocaleString()}`;
+    }
+  }
+
+  // Update cart item quantity
+  function updateCartItemQuantity(productId, change) {
+    const item = cart.find(item => item.id === productId);
+    
+    if (item) {
+      item.quantity += change;
+      
+      if (item.quantity <= 0) {
+        cart = cart.filter(item => item.id !== productId);
+        showNotification('Item removed from cart');
+      } else {
+        showNotification(`${item.name} quantity updated`);
+      }
+      
+      saveCart();
+      renderCart();
+      updateCartCount();
+    }
+  }
+
+  // Clear cart
+  clearCartBtn.addEventListener('click', function() {
+    if (cart.length > 0) {
+      if (confirm('Are you sure you want to clear your cart?')) {
+        cart = [];
+        saveCart();
+        renderCart();
+        updateCartCount();
+        showNotification('Cart cleared');
+      }
+    }
+  });
+
+  // Submit order
+  submitOrderBtn.addEventListener('click', function() {
+    const name = document.getElementById('customerName').value.trim();
+    const phone = document.getElementById('customerPhone').value.trim();
+    const email = document.getElementById('customerEmail').value.trim();
+    const address = document.getElementById('customerAddress').value.trim();
+    const notes = document.getElementById('deliveryNotes').value.trim();
+    
+    // Validate required fields
+    if (!name || !phone || !address) {
+      showNotification('Please fill in all required fields', 'error');
+      return;
+    }
+    
+    if (cart.length === 0) {
+      showNotification('Your cart is empty', 'error');
+      return;
+    }
+    
+    // Disable button during processing
+    this.disabled = true;
+    this.textContent = 'Processing...';
+    
+    // Prepare order message
+    const orderMessage = generateOrderMessage(name, phone, email, address, notes);
+    
+    // Encode message for WhatsApp URL
+    const encodedMessage = encodeURIComponent(orderMessage);
+    
+    // WhatsApp phone number
+    const whatsappNumber = '2348038810268';
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappUrl, '_blank');
+    
+    // Reset button
+    setTimeout(() => {
+      this.disabled = false;
+      this.textContent = 'Place Order via WhatsApp';
+    }, 2000);
+  });
+
+  // Generate order message for WhatsApp
+  function generateOrderMessage(name, phone, email, address, notes) {
+    let message = `*NEW ORDER - DOA PERFUMES*\n\n`;
+    message += `*Customer Information:*\n`;
+    message += `Name: ${name}\n`;
+    message += `Phone: ${phone}\n`;
+    if (email) message += `Email: ${email}\n`;
+    message += `Address: ${address}\n`;
+    if (notes) message += `Notes: ${notes}\n\n`;
+    
+    message += `*Order Details:*\n`;
+    let subtotal = 0;
+    
+    cart.forEach((item, index) => {
+      const itemTotal = item.price * item.quantity;
+      subtotal += itemTotal;
+      message += `${index + 1}. ${item.name} - ${item.quantity} × ₦${item.price.toLocaleString()} = ₦${itemTotal.toLocaleString()}\n`;
+    });
+    
+    const deliveryFee = 2500;
+    const grandTotal = subtotal + deliveryFee;
+    
+    message += `\n*Order Summary:*\n`;
+    message += `Subtotal: ₦${subtotal.toLocaleString()}\n`;
+    message += `Delivery Fee: ₦${deliveryFee.toLocaleString()}\n`;
+    message += `*Total: ₦${grandTotal.toLocaleString()}*\n\n`;
+    
+    message += `Order placed on: ${new Date().toLocaleString()}\n`;
+    message += `Thank you!`;
+    
+    return message;
+  }
+
+  // Show notification
+  function showNotification(message, type = 'success') {
+    notification.textContent = message;
+    notification.className = `notification ${type}`;
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 3000);
+  }
+
+  // Update cart count
+  function updateCartCount() {
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartCount.textContent = totalItems;
+  }
+
+  // Save cart to localStorage
+  function saveCart() {
+    localStorage.setItem('doaCart', JSON.stringify(cart));
+  }
+
+  // Form validation
+  document.querySelectorAll('.form-control').forEach(input => {
+    input.addEventListener('input', function() {
+      validateForm();
+    });
+  });
+
+  function validateForm() {
+    const name = document.getElementById('customerName').value.trim();
+    const phone = document.getElementById('customerPhone').value.trim();
+    const address = document.getElementById('customerAddress').value.trim();
+    const submitBtn = document.getElementById('submitOrderBtn');
+    
+    submitBtn.disabled = !(name && phone && address && cart.length > 0);
+  }
+
+  // Initialize form validation
+  validateForm();
+</script>
+
+</body>
+</html>
