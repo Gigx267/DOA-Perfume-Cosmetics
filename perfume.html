@@ -1066,31 +1066,31 @@ html {
 <nav class="navbar">
   <div class="nav-container">
     <a href="index.html" class="logo">
-      <img src="logo.png" alt="Brand Logo" class="logo-img">
+      <img src="logo.png" alt="DOA Brand Logo" class="logo-img">
     </a>
 
     <div class="nav-links" id="navLinks">
       <div class="main-nav">
         <a href="index.html">HOME</a>
         <a href="about.html">ABOUT</a>
-        <a href="perfume.html" style="color: #E6D8C3;">PERFUMES</a>
+        <a href="perfume.html" class="active-page">PERFUMES</a>
         <a href="cosmetic.html">COSMETICS</a>
         <a href="contact.html">CONTACT</a>
       </div>
       
       <div class="icon-group">
-        <a href="#cart-section" class="icon-link cart-icon" aria-label="Cart">
+        <a href="#cart-section" class="icon-link cart-icon" title="View your cart" aria-label="Shopping Cart">
           <i class="fa-solid fa-cart-shopping"></i>
-          <span id="cartCount" class="cart-badge">0</span>
+          <span id="cartCount" class="cart-badge"></span>
         </a>
       </div>
     </div>
 
-    <div class="menu-toggle" id="menuToggle">
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
       <span></span>
       <span></span>
       <span></span>
-    </div>
+    </button>
   </div>
 </nav>
 
