@@ -1,117 +1,3 @@
-
-<audio id="bgMusic" loop>
-    <source src="mj (2).mp3" type="audio/mpeg">
-    <source src="mj (2).mp3" type="audio/ogg">
-</audio>
-
-<style>
-    :root {
-        --parchment: #f4ece0;
-        --sepia-dark: #5d4037;
-        --sepia-medium: #bc9e82;
-    }
-
-    #music-controls {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background-color: var(--parchment);
-        padding: 8px 12px;
-        border: 1px solid var(--sepia-medium);
-        outline: 3px solid var(--parchment);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        font-family: 'Georgia', serif;
-        /* Subtle flicker animation kept for character */
-        animation: vintageFlicker 8s infinite;
-    }
-
-    /* Small "Atmosphere" label */
-    #music-controls span {
-        font-size: 11px;
-        color: var(--sepia-dark);
-        font-style: italic;
-        text-transform: lowercase;
-        border-right: 1px solid var(--sepia-medium);
-        padding-right: 8px;
-        white-space: nowrap;
-    }
-
-    #music-controls button {
-        background: transparent;
-        border: none;
-        color: var(--sepia-dark);
-        cursor: pointer;
-        font-family: inherit;
-        font-variant: small-caps;
-        font-size: 11px;
-        padding: 2px 4px;
-        transition: all 0.2s ease;
-    }
-
-    #music-controls button:hover {
-        background: var(--sepia-dark);
-        color: var(--parchment);
-    }
-
-    @keyframes vintageFlicker {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.96; }
-    }
-</style>
-
-<script>
-    window.addEventListener('load', function() {
-        const bgMusic = document.getElementById('bgMusic');
-        const playPromise = bgMusic.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.then(() => createMusicControls(true))
-                       .catch(() => createMusicControls(false));
-        }
-    });
-
-    function createMusicControls(isPlaying) {
-        if (document.getElementById('music-controls')) return;
-
-        const container = document.createElement('div');
-        container.id = 'music-controls';
-        container.innerHTML = `
-            <span>audio</span>
-            <button id="toggleBtn">${isPlaying ? 'Pause' : 'Play'}</button>
-            <button id="muteBtn">Mute</button>
-        `;
-        
-        document.body.appendChild(container);
-
-        const music = document.getElementById('bgMusic');
-        const toggleBtn = document.getElementById('toggleBtn');
-        const muteBtn = document.getElementById('muteBtn');
-
-        toggleBtn.onclick = () => {
-            if (music.paused) {
-                music.play();
-                toggleBtn.innerText = "Pause";
-            } else {
-                music.pause();
-                toggleBtn.innerText = "Play";
-            }
-        };
-
-        muteBtn.onclick = () => {
-            music.muted = !music.muted;
-            muteBtn.innerText = music.muted ? "Unmute" : "Mute";
-        };
-    }
-</script>
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,7 +11,465 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
 
 <style>
-/* ================= CART SECTION - UPDATED ================= */
+/* ================= BASE STYLES ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+body {
+  background: #f5f2ee;
+  color: #3A2E2A;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ================= NAVIGATION ================= */
+:root {
+  --nav-bg: #3A2E2A;
+  --accent: #E6D8C3;
+  --text-white: #ffffff;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar {
+  position: sticky;
+  top: 1rem;
+  z-index: 1000;
+  background: var(--nav-bg);
+  padding: 0.75rem 2rem;
+  margin: 1rem auto;
+  border-radius: 50px;
+  max-width: 95%;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+  animation: navFade 0.8s ease forwards;
+}
+
+@keyframes navFade {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-img { 
+  height: 50px; 
+  width: auto; 
+  transition: var(--transition); 
+}
+
+.logo-img:hover { 
+  transform: scale(1.05); 
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.main-nav { 
+  display: flex; 
+  gap: 2rem; 
+}
+
+.nav-links a {
+  color: var(--text-white);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  position: relative;
+  transition: var(--transition);
+}
+
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: var(--accent);
+  transition: var(--transition);
+}
+
+.main-nav a:hover { 
+  color: var(--accent); 
+}
+
+.main-nav a:hover::after { 
+  width: 100%; 
+}
+
+.icon-group { 
+  display: flex; 
+  gap: 1.5rem; 
+  align-items: center; 
+}
+
+.icon-link i { 
+  font-size: 1.2rem; 
+}
+
+.icon-link:hover { 
+  color: var(--accent); 
+  transform: translateY(-2px); 
+}
+
+.cart-icon { 
+  position: relative; 
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: var(--accent);
+  color: var(--nav-bg);
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+  display: none;
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  transition: var(--transition);
+}
+
+/* ================= HERO SECTION ================= */
+.cosmetics-hero {
+  position: relative;
+  height: 60vh;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: 2rem;
+  border-radius: 30px;
+  width: 95%;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.cosmetics-hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+  z-index: -1;
+  border-radius: 30px;
+}
+
+.cosmetics-hero-content {
+  text-align: center;
+  color: #fff;
+  max-width: 800px;
+  padding: 2rem;
+  z-index: 2;
+}
+
+.cosmetics-hero-content h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.cosmetics-hero-content p {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ================= SEARCH SECTION ================= */
+.search-container {
+  max-width: 1200px;
+  margin: 2rem auto 1rem;
+  padding: 0 1.5rem;
+}
+
+.search-box {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto 1rem;
+}
+
+.search-box i {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #74625c;
+  font-size: 1.2rem;
+}
+
+#productSearch {
+  width: 100%;
+  padding: 1rem 1rem 1rem 50px;
+  border: 2px solid #E6D8C3;
+  border-radius: 30px;
+  font-size: 1rem;
+  background: #fff;
+  color: #3A2E2A;
+  transition: all 0.3s ease;
+}
+
+#productSearch:focus {
+  outline: none;
+  border-color: #3A2E2A;
+  box-shadow: 0 0 0 3px rgba(58, 46, 42, 0.1);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #74625c;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.clear-search-btn:hover {
+  opacity: 1;
+}
+
+.search-tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.search-tag {
+  background: #E6D8C3;
+  color: #3A2E2A;
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.search-tag:hover {
+  background: #3A2E2A;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ================= MAIN LAYOUT ================= */
+.store-container {
+  display: flex;
+  max-width: 1400px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+  gap: 3rem;
+}
+
+/* ================= PRODUCTS SECTION ================= */
+.products-section {
+  flex: 2;
+}
+
+.section-header {
+  margin-bottom: 2.5rem;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  color: #3A2E2A;
+  margin-bottom: 0.5rem;
+}
+
+.section-header p {
+  color: #74625c;
+  font-size: 1.1rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.product-image {
+  height: 250px;
+  overflow: hidden;
+  background: #f5f2ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.05);
+}
+
+.product-info {
+  padding: 1.5rem;
+}
+
+.product-info h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #3A2E2A;
+}
+
+.product-info p {
+  color: #74625c;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.product-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 1rem;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.price-label {
+  color: #74625c;
+}
+
+.price-value {
+  font-weight: 600;
+  color: #3A2E2A;
+}
+
+.product-price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #3A2E2A;
+  margin-bottom: 1rem;
+}
+
+.product-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f5f2ee;
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+}
+
+.quantity-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #3A2E2A;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.quantity-btn:hover {
+  background: #E6D8C3;
+}
+
+.quantity-input {
+  width: 40px;
+  text-align: center;
+  border: none;
+  background: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3A2E2A;
+}
+
+.add-to-cart-btn {
+  flex: 1;
+  background: #3A2E2A;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 0.8rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background: #4a3a34;
+  transform: translateY(-2px);
+}
+
+.add-to-cart-btn.added {
+  background: #D4AF37;
+}
+
+/* ================= CART SECTION ================= */
 .cart-section {
   flex: 1;
   background: #fff;
@@ -134,912 +478,174 @@
   height: fit-content;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
   position: sticky;
-  top: 120px; /* Adjusted to account for navbar */
+  top: 120px;
   max-height: 85vh;
   overflow-y: auto;
 }
 
-/* Make sure cart items don't overflow */
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-header h2 {
+  font-size: 1.8rem;
+  color: #3A2E2A;
+}
+
+.clear-cart-btn {
+  background: none;
+  border: none;
+  color: #74625c;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.clear-cart-btn:hover {
+  color: #3A2E2A;
+}
+
 .cart-items {
+  margin-bottom: 2rem;
   max-height: 300px;
   overflow-y: auto;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f5f2ee;
+}
+
+.cart-item-info h4 {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  color: #3A2E2A;
+}
+
+.cart-item-info p {
+  font-size: 0.9rem;
+  color: #74625c;
+}
+
+.cart-item-price {
+  font-weight: 600;
+  color: #3A2E2A;
+}
+
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-item-quantity button {
+  background: #f5f2ee;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-total {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #E6D8C3;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.grand-total {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #3A2E2A;
+}
+
+/* ================= ORDER FORM ================= */
+.order-form {
+  margin-top: 2rem;
+}
+
+.form-group {
   margin-bottom: 1.5rem;
 }
 
-/* Adjust for mobile */
-@media (max-width: 1024px) {
-  .cart-section {
-    position: static;
-    margin-top: 3rem;
-    max-height: none;
-  }
-  
-  .cart-items {
-    max-height: 400px;
-  }
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #3A2E2A;
 }
-  /* Base Styles */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Cormorant Garamond', serif;
-  }
 
-  body {
-    background: #f5f2ee;
-    color: #3A2E2A;
-    overflow-x: hidden;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Navigation - Same as home page */
-  :root {
-    --nav-bg: #3A2E2A;
-    --accent: #E6D8C3;
-    --text-white: #ffffff;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .navbar {
-    position: sticky;
-    top: 1rem;
-    z-index: 1000;
-    background: var(--nav-bg);
-    padding: 0.75rem 2rem;
-    margin: 1rem auto;
-    border-radius: 50px;
-    max-width: 95%;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
-    animation: navFade 0.8s ease forwards;
-  }
-
-  @keyframes navFade {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .nav-container {
-    max-width: 1400px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logo-img { 
-    height: 50px; 
-    width: auto; 
-    transition: var(--transition); 
-  }
-  
-  .logo-img:hover { 
-    transform: scale(1.05); 
-  }
-
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-  }
-
-  .main-nav { 
-    display: flex; 
-    gap: 2rem; 
-  }
-
-  .nav-links a {
-    color: var(--text-white);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    position: relative;
-    transition: var(--transition);
-  }
-
-  /* Underline Hover Effect */
-  .main-nav a::after {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -4px;
-    left: 0;
-    background: var(--accent);
-    transition: var(--transition);
-  }
-
-  .main-nav a:hover { 
-    color: var(--accent); 
-  }
-  
-  .main-nav a:hover::after { 
-    width: 100%; 
-  }
-
-  /* Icon Styling */
-  .icon-group { 
-    display: flex; 
-    gap: 1.5rem; 
-    align-items: center; 
-  }
-  
-  .icon-link i { 
-    font-size: 1.2rem; 
-  }
-  
-  .icon-link:hover { 
-    color: var(--accent); 
-    transform: translateY(-2px); 
-  }
-
-  .cart-icon { 
-    position: relative; 
-  }
-  
-  .cart-badge {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    background: var(--accent);
-    color: var(--nav-bg);
-    font-size: 0.7rem;
-    padding: 2px 6px;
-    border-radius: 50%;
-    font-weight: bold;
-  }
-
-  /* Mobile Responsive Logic */
-  @media (max-width: 992px) {
-    .menu-toggle {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-    }
-    
-    .menu-toggle span {
-      width: 25px;
-      height: 3px;
-      background: #fff;
-      transition: var(--transition);
-    }
-
-    .nav-links {
-      position: absolute;
-      top: 120%;
-      right: 0;
-      background: var(--nav-bg);
-      flex-direction: column;
-      width: 250px;
-      padding: 2rem;
-      border-radius: 20px;
-      transform: translateX(120%);
-      transition: var(--transition);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    .nav-links.active { 
-      transform: translateX(0); 
-    }
-    
-    .main-nav { 
-      flex-direction: column; 
-      gap: 1.5rem; 
-      text-align: center; 
-    }
-  }
-
-  /* ================= COSMETICS HERO ================= */
-  .cosmetics-hero {
-    position: relative;
-    height: 60vh;
-    min-height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-top: 2rem;
-    border-radius: 30px;
-    width: 95%;
-    max-width: 1200px;
-    margin: 2rem auto;
-  }
-
-  .cosmetics-hero-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(0.7);
-    z-index: -1;
-    border-radius: 30px;
-  }
-
-  .cosmetics-hero-content {
-    text-align: center;
-    color: #fff;
-    max-width: 800px;
-    padding: 2rem;
-    z-index: 2;
-  }
-
-  .cosmetics-hero-content h1 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    margin-bottom: 1rem;
-    line-height: 1.2;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  }
-
-  .cosmetics-hero-content p {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-
-  /* ================= MAIN LAYOUT ================= */
-  .store-container {
-    display: flex;
-    max-width: 1400px;
-    margin: 3rem auto;
-    padding: 0 1.5rem;
-    gap: 3rem;
-  }
-
-  /* ================= PRODUCTS SECTION ================= */
-  .products-section {
-    flex: 2;
-  }
-
-  .section-header {
-    margin-bottom: 2.5rem;
-  }
-
-  .section-header h2 {
-    font-size: 2rem;
-    color: #3A2E2A;
-    margin-bottom: 0.5rem;
-  }
-
-  .section-header p {
-    color: #74625c;
-    font-size: 1.1rem;
-  }
-
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-  }
-
-  .product-card {
-    background: #fff;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  }
-
-  .product-image {
-    height: 250px;
-    overflow: hidden;
-  }
-
-  .product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-
-  .product-card:hover .product-image img {
-    transform: scale(1.05);
-  }
-
-  .product-info {
-    padding: 1.5rem;
-  }
-
-  .product-info h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    color: #3A2E2A;
-  }
-
-  .product-info p {
-    color: #74625c;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-  }
-
-  .product-price {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #3A2E2A;
-    margin-bottom: 1rem;
-  }
-
-  .product-actions {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .quantity-selector {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: #f5f2ee;
-    border-radius: 30px;
-    padding: 0.5rem 1rem;
-  }
-
-  .quantity-btn {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #3A2E2A;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background 0.3s ease;
-  }
-
-  .quantity-btn:hover {
-    background: #E6D8C3;
-  }
-
-  .quantity-input {
-    width: 40px;
-    text-align: center;
-    border: none;
-    background: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #3A2E2A;
-  }
-
-  .add-to-cart-btn {
-    flex: 1;
-    background: #3A2E2A;
-    color: #fff;
-    border: none;
-    border-radius: 30px;
-    padding: 0.8rem 1.5rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
-  }
-
-  .add-to-cart-btn:hover {
-    background: #4a3a34;
-    transform: translateY(-2px);
-  }
-
-  .add-to-cart-btn.added {
-    background: #D4AF37;
-  }
-
-  /* ================= CART SECTION ================= */
-  .cart-section {
-    flex: 1;
-    background: #fff;
-    border-radius: 20px;
-    padding: 2rem;
-    height: fit-content;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    position: sticky;
-    top: 120px;
-  }
-
-  .cart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-  }
-
-  .cart-header h2 {
-    font-size: 1.8rem;
-    color: #3A2E2A;
-  }
-
-  .clear-cart-btn {
-    background: none;
-    border: none;
-    color: #74625c;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
-  }
-
-  .clear-cart-btn:hover {
-    color: #3A2E2A;
-  }
-
-  .cart-items {
-    margin-bottom: 2rem;
-    max-height: 400px;
-    overflow-y: auto;
-  }
-
-  .cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-    border-bottom: 1px solid #f5f2ee;
-  }
-
-  .cart-item-info h4 {
-    font-size: 1rem;
-    margin-bottom: 0.3rem;
-    color: #3A2E2A;
-  }
-
-  .cart-item-info p {
-    font-size: 0.9rem;
-    color: #74625c;
-  }
-
-  .cart-item-price {
-    font-weight: 600;
-    color: #3A2E2A;
-  }
-
-  .cart-item-quantity {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .cart-item-quantity button {
-    background: #f5f2ee;
-    border: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .cart-total {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid #E6D8C3;
-  }
-
-  .total-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-  }
-
-  .grand-total {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #3A2E2A;
-  }
-
-  /* ================= ORDER FORM ================= */
-  .order-form {
-    margin-top: 2rem;
-  }
-
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #3A2E2A;
-  }
-
-  .form-control {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: border 0.3s ease;
-  }
-
-  .form-control:focus {
-    outline: none;
-    border-color: #3A2E2A;
-  }
-
-  .submit-order-btn {
-    width: 100%;
-    background: #D4AF37;
-    color: #fff;
-    border: none;
-    border-radius: 30px;
-    padding: 1rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
-    margin-top: 1rem;
-  }
-
-  .submit-order-btn:hover {
-    background: #c19b2a;
-    transform: translateY(-2px);
-  }
-
-  .submit-order-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  /* ================= EMPTY CART ================= */
-  .empty-cart {
-    text-align: center;
-    padding: 2rem;
-    color: #74625c;
-  }
-
-  .empty-cart i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: #E6D8C3;
-  }
-
-  /* ================= FOOTER ================= */
-  .footer {
-    background-color: #E6D8C3;
-    padding: 4rem 1.5rem 2rem;
-    font-family: "Poppins", sans-serif;
-    color: #333;
-    margin-top: 5rem;
-  }
-
-  /* Newsletter Card */
-  .newsletter-card {
-    background-color: #3A2E2A;
-    border-radius: 1rem;
-    padding: 3rem 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto 4rem;
-    width: 90%;
-    max-width: 1000px;
-  }
-
-  .newsletter-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
-    max-width: 950px;
-    color: #fff;
-  }
-
-  .newsletter-text {
-    flex: 1;
-    min-width: 280px;
-  }
-
-  .newsletter-text h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-
-  .newsletter-text p {
-    font-size: 0.9rem;
-    opacity: 0.85;
-    line-height: 1.6;
-  }
-
-  .newsletter-form {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3rem;
-    padding: 0.3rem 0.5rem;
-    margin-top: 1rem;
-  }
-
-  .email-input {
-    padding: 0.8rem 1rem;
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    outline: none;
-    border-radius: 2rem;
-    color: #fff;
-    width: 220px;
-    backdrop-filter: blur(8px);
-  }
-
-  .email-input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .subscribe-btn {
-    background-color: #E6D8C3;
-    border: none;
-    border-radius: 2rem;
-    padding: 0.8rem 1.6rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .subscribe-btn:hover {
-    transform: scale(1.05);
-    background-color: #f6ead8;
-  }
-
-  /* Footer Main */
-  .footer-main {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    max-width: 1000px;
-    margin: auto;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    padding-top: 3rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    gap: 3rem;
-  }
-
-  .footer-left {
-    flex: 1;
-    min-width: 250px;
-    text-align: left;
-  }
-
-  .footer-logo {
-    width: 150px;
-    margin-bottom: 1rem;
-  }
-
-  .footer-left p {
-    font-size: 0.9rem;
-    color: #0F0F0F;
-    margin-bottom: 1rem;
-  }
-
-  /* Social Media */
-  .social-icons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .social-link {
-    color: #3A2E2A;
-    font-size: 1.4rem;
-    transition: color 0.3s ease, transform 0.3s ease;
-  }
-
-  .social-link:hover {
-    color: #74625c;
-    transform: scale(1.1);
-  }
-
-  /* Footer Links */
-  .footer-links {
-    display: flex;
-    gap: 3rem;
-    flex-wrap: wrap;
-  }
-
-  .link-group h4 {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    color: #3A2E2A;
-    font-weight: 600;
-  }
-
-  .link-group a {
-    display: block;
-    text-decoration: none;
-    color: #0F0F0F;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    transition: color 0.3s ease;
-  }
-
-  .link-group a:hover {
-    color: #373737;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .newsletter-content {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem;
-    }
-
-    .newsletter-form {
-      width: 100%;
-    }
-
-    .footer-main {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2rem;
-      padding: 0 1rem;
-    }
-
-    .footer-links {
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .footer-left {
-      text-align: left;
-    }
-  }
-
-  .footer-bottom {
-    text-align: center;
-    color: #333;
-    font-size: 0.9rem;
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    opacity: 0.9;
-  }
-
-  /* ================= RESPONSIVE LAYOUT ================= */
-  @media (max-width: 1024px) {
-    .store-container {
-      flex-direction: column;
-    }
-
-    .cart-section {
-      position: static;
-      margin-top: 3rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .products-grid {
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
-
-    .cosmetics-hero {
-      height: 50vh;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .products-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .product-actions {
-      flex-direction: column;
-    }
-
-    .quantity-selector {
-      justify-content: center;
-    }
-  }
-
-  /* ================= NOTIFICATION ================= */
-  .notification {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #3A2E2A;
-    color: white;
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    transform: translateY(100px);
-    opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    z-index: 10000;
-    max-width: 300px;
-  }
-
-  .notification.show {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  /* WhatsApp Floating Button */
-  .whatsapp-float {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: #25D366;
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
-    z-index: 1000;
-    text-decoration: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .whatsapp-float:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
-  }
-</style>
-</head>
-
-<body>
-<nav class="navbar">
-  <div class="nav-container">
-    <a href="index.html" class="logo">
-      <img src="logo.png" alt="Brand Logo" class="logo-img">
-    </a>
-
-    <div class="nav-links" id="navLinks">
-      <div class="main-nav">
-        <a href="index.html">HOME</a>
-        <a href="about.html">ABOUT</a>
-        <a href="perfume.html">PERFUMES</a>
-        <a href="cosmetic.html" style="color: #E6D8C3;">COSMETICS</a>
-        <a href="contact.html">CONTACT</a>
-      </div>
-      
-      <div class="icon-group">
-        <a href="#cart-section" class="icon-link cart-icon" aria-label="Cart">
-          <i class="fa-solid fa-cart-shopping"></i>
-          <span id="cartCount">0</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="menu-toggle" id="menuToggle">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </div>
-</nav>
-
-<!-- Animated Cart Button -->
-<div class="cart-float-container">
-  <a href="#cart-section" class="cart-float" id="cartFloatBtn" title="View Cart & Checkout">
-    <i class="fas fa-shopping-cart"></i>
-    <span class="cart-count" id="cartFloatCount">0</span>
-  </a>
-  <div class="cart-tooltip">View Cart</div>
-</div>
-
-<style>
+.form-control {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #3A2E2A;
+}
+
+.submit-order-btn {
+  width: 100%;
+  background: #D4AF37;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  margin-top: 1rem;
+}
+
+.submit-order-btn:hover {
+  background: #c19b2a;
+  transform: translateY(-2px);
+}
+
+.submit-order-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ================= EMPTY CART ================= */
+.empty-cart {
+  text-align: center;
+  padding: 2rem;
+  color: #74625c;
+}
+
+.empty-cart i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #E6D8C3;
+}
+
+/* ================= FLOATING CART BUTTON ================= */
 .cart-float-container {
   position: fixed;
   bottom: 30px;
@@ -1085,6 +691,7 @@
   padding: 0 5px;
   border: 3px solid white;
   animation: pulse 2s infinite;
+  display: none;
 }
 
 .cart-tooltip {
@@ -1113,82 +720,406 @@
   50% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
+
+/* ================= NOTIFICATION ================= */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #3A2E2A;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 10000;
+  max-width: 300px;
+}
+
+.notification.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+  background-color: #E6D8C3;
+  padding: 4rem 1.5rem 2rem;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  margin-top: 5rem;
+}
+
+.newsletter-card {
+  background-color: #3A2E2A;
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 4rem;
+  width: 90%;
+  max-width: 1000px;
+}
+
+.newsletter-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 950px;
+  color: #fff;
+}
+
+.newsletter-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.newsletter-text h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.newsletter-text p {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3rem;
+  padding: 0.3rem 0.5rem;
+  margin-top: 1rem;
+}
+
+.email-input {
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  outline: none;
+  border-radius: 2rem;
+  color: #fff;
+  width: 220px;
+  backdrop-filter: blur(8px);
+}
+
+.email-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.subscribe-btn {
+  background-color: #E6D8C3;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.8rem 1.6rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  transform: scale(1.05);
+  background-color: #f6ead8;
+}
+
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 3rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  gap: 3rem;
+}
+
+.footer-left {
+  flex: 1;
+  min-width: 250px;
+  text-align: left;
+}
+
+.footer-logo {
+  width: 150px;
+  margin-bottom: 1rem;
+}
+
+.footer-left p {
+  font-size: 0.9rem;
+  color: #0F0F0F;
+  margin-bottom: 1rem;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-link {
+  color: #3A2E2A;
+  font-size: 1.4rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-link:hover {
+  color: #74625c;
+  transform: scale(1.1);
+}
+
+.footer-links {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.link-group h4 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #3A2E2A;
+  font-weight: 600;
+}
+
+.link-group a {
+  display: block;
+  text-decoration: none;
+  color: #0F0F0F;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.link-group a:hover {
+  color: #373737;
+}
+
+.footer-bottom {
+  text-align: center;
+  color: #333;
+  font-size: 0.9rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.9;
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 1024px) {
+  .store-container {
+    flex-direction: column;
+  }
+
+  .cart-section {
+    position: static;
+    margin-top: 3rem;
+    max-height: none;
+  }
+  
+  .cart-items {
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 992px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background: var(--nav-bg);
+    flex-direction: column;
+    width: 250px;
+    padding: 2rem;
+    border-radius: 20px;
+    transform: translateX(120%);
+    transition: var(--transition);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .nav-links.active { 
+    transform: translateX(0); 
+  }
+  
+  .main-nav { 
+    flex-direction: column; 
+    gap: 1.5rem; 
+    text-align: center; 
+  }
+  
+  .icon-group {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .cosmetics-hero {
+    height: 50vh;
+  }
+  
+  .newsletter-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .newsletter-form {
+    width: 100%;
+  }
+
+  .footer-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .footer-left {
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-actions {
+    flex-direction: column;
+  }
+
+  .quantity-selector {
+    justify-content: center;
+  }
+}
+
+/* ================= WHATSAPP BUTTON ================= */
+.whatsapp-float {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background: #25D366;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+  z-index: 1000;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
+}
+
+/* ================= NO RESULTS MESSAGE ================= */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: #74625c;
+}
+
+.no-results i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #E6D8C3;
+}
 </style>
+</head>
 
-<script>
-// Floating cart button functionality
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize floating cart button
-  updateFloatingCartCount();
-  
-  // Smooth scroll to cart section when clicking the floating cart button
-  const cartFloatBtn = document.getElementById('cartFloatBtn');
-  if (cartFloatBtn) {
-    cartFloatBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      const cartSection = document.querySelector('.cart-section');
-      if (cartSection) {
-        cartSection.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-        
-        // Add a highlight effect to draw attention
-        cartSection.style.boxShadow = '0 0 0 4px rgba(212, 175, 55, 0.5)';
-        setTimeout(() => {
-          cartSection.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
-        }, 1500);
-      }
-    });
-  }
-});
+<body>
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo">
+      <img src="https://via.placeholder.com/150x50?text=DOA+LOGO" alt="Brand Logo" class="logo-img">
+    </a>
 
-// Function to update floating cart count
-function updateFloatingCartCount() {
-  const cart = JSON.parse(localStorage.getItem('doaCart')) || [];
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  
-  // Update floating button count
-  const cartFloatCount = document.getElementById('cartFloatCount');
-  if (cartFloatCount) {
-    cartFloatCount.textContent = totalItems;
-    cartFloatCount.style.display = totalItems > 0 ? 'flex' : 'none';
-  }
-  
-  // Also update navbar cart count (if it exists)
-  const navCartCount = document.querySelector('.cart-icon span') || document.getElementById('cartCount');
-  if (navCartCount) {
-    navCartCount.textContent = totalItems;
-    navCartCount.style.display = totalItems > 0 ? 'flex' : 'none';
-  }
-}
+    <div class="nav-links" id="navLinks">
+      <div class="main-nav">
+        <a href="index.html">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="perfume.html">PERFUMES</a>
+        <a href="cosmetic.html" style="color: #E6D8C3;">COSMETICS</a>
+        <a href="contact.html">CONTACT</a>
+      </div>
+      
+      <div class="icon-group">
+        <a href="#cart-section" class="icon-link cart-icon" aria-label="Cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cartCount" class="cart-badge">0</span>
+        </a>
+      </div>
+    </div>
 
-// Function to update ALL cart counts (call this after any cart operation)
-function updateAllCartCounts() {
-  updateFloatingCartCount();
-  
-  // Also update the count in your existing updateCartCount function if it exists
-  const cart = JSON.parse(localStorage.getItem('doaCart')) || [];
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  
-  // Update any other cart count elements
-  document.querySelectorAll('.cart-count, #cartCount').forEach(element => {
-    if (element.id !== 'cartFloatCount') { // Don't update the floating one twice
-      element.textContent = totalItems;
-      element.style.display = totalItems > 0 ? 'flex' : 'none';
-    }
-  });
-}
-</script>
+    <div class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</nav>
 
 <!-- Cosmetics Hero -->
 <section class="cosmetics-hero">
-  <img src="ae (8).jpg" alt="Cosmetics Collection" class="cosmetics-hero-bg">
+  <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Cosmetics Collection" class="cosmetics-hero-bg">
   <div class="cosmetics-hero-content">
     <h1>Premium Cosmetics</h1>
     <p>Discover our exquisite collection of beauty products, designed to enhance your natural beauty with luxury and care.</p>
   </div>
 </section>
+
+<!-- Search Section -->
+<div class="search-container">
+  <div class="search-box">
+    <i class="fas fa-search"></i>
+    <input type="text" id="productSearch" placeholder="Search products (e.g., Panoxyl, Kojie San, Retinol...)">
+    <button id="clearSearch" class="clear-search-btn">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="search-tags">
+    <span class="search-tag" data-search="panoxyl">Panoxyl</span>
+    <span class="search-tag" data-search="kojie">Kojie San</span>
+    <span class="search-tag" data-search="retinol">Retinol</span>
+    <span class="search-tag" data-search="serum">Serum</span>
+    <span class="search-tag" data-search="lotion">Lotion</span>
+    <span class="search-tag" data-search="wash">Wash</span>
+    <span class="search-tag" data-search="cream">Cream</span>
+    <span class="search-tag" data-search="pretty skin">Pretty Skin</span>
+    <span class="search-tag" data-search="aveeno">Aveeno</span>
+    <span class="search-tag" data-search="neutrogena">Neutrogena</span>
+  </div>
+</div>
 
 <!-- Main Store Content -->
 <div class="store-container">
@@ -1205,14 +1136,13 @@ function updateAllCartCounts() {
   </section>
 
   <!-- Cart & Order Section -->
-  <section class="cart-section">
+  <section class="cart-section" id="cart-section">
     <div class="cart-header">
       <h2>Your Order</h2>
       <button class="clear-cart-btn" id="clearCartBtn">Clear All</button>
     </div>
 
     <div class="cart-items" id="cartItems">
-      <!-- Cart items will be dynamically loaded here -->
       <div class="empty-cart" id="emptyCart">
         <i class="fas fa-shopping-cart"></i>
         <p>Your cart is empty</p>
@@ -1272,6 +1202,20 @@ function updateAllCartCounts() {
   </section>
 </div>
 
+<!-- Floating Cart Button -->
+<div class="cart-float-container">
+  <a href="#cart-section" class="cart-float" id="cartFloatBtn" title="View Cart & Checkout">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count" id="cartFloatCount">0</span>
+  </a>
+  <div class="cart-tooltip">View Cart</div>
+</div>
+
+<!-- WhatsApp Button -->
+<a href="https://wa.me/2348038810268" class="whatsapp-float" target="_blank" title="Chat with us on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
 <!-- Notification -->
 <div class="notification" id="notification"></div>
 
@@ -1292,7 +1236,7 @@ function updateAllCartCounts() {
 
   <div class="footer-main">
     <div class="footer-left">
-      <img src="footer logo.png" alt="Brand Logo" class="footer-logo" />
+      <img src="https://via.placeholder.com/150x50?text=DOA+LOGO" alt="Brand Logo" class="footer-logo" />
       <p>Where fragrance meets beauty,<br>
         crafted for everyday moments.</p>
 
@@ -1331,525 +1275,698 @@ function updateAllCartCounts() {
 </footer>
 
 <script>
-  // Cosmetics Products Data
-  const products = [
-    {
-      id: 101,
-      name: "Hydrating Facial Serum",
-      description: "Vitamin C & Hyaluronic Acid Serum • 30ml",
-      price: 12000,
-      image: "https://i.pinimg.com/1200x/f5/14/76/f51476127f766585a3bee2c8e72931c9.jpg "
-    },
-   
-    [
+// ================= PRODUCT DATA =================
+const products = [
   {
-    "id": 101,
-    "name": "Full Fit Propolis Synergy Toner Mini Size",
-    "description": "COSRX Full Fit Propolis Synergy Toner • 50ml",
-    "price": 7500,
-    "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 1,
+    name: "Panoxyl 10%",
+    description: "Acne treatment wash with 10% benzoyl peroxide",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 16500,
+    priceDzn: 16000,
+    category: "panoxyl"
   },
   {
-    "id": 102,
-    "name": "MY SIGNATURE C SOURCE",
-    "description": "TIA'M Vitamin C Serum",
-    "price": 13500,
-    "image": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 2,
+    name: "Kojie San Soap 3in1",
+    description: "Skin lightening and exfoliating soap",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 7000,
+    priceDzn: 6500,
+    category: "kojie"
   },
   {
-    "id": 103,
-    "name": "24K Rose Gold Lightening Lotion",
-    "description": "24K Rose Gold Lightening Lotion • 140ml",
-    "price": 42500,
-    "image": "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 3,
+    name: "Kojie San Lotion SPF25",
+    description: "Skin lightening lotion with sun protection",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 14000,
+    priceDzn: 13500,
+    category: "kojie"
   },
   {
-    "id": 104,
-    "name": "3 Days Shirley",
-    "description": "3 Days Shirley Treatment",
-    "price": 4000,
-    "image": "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 4,
+    name: "Kojie San Facial Wash",
+    description: "Gentle facial cleanser for brightening",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 7600,
+    priceDzn: 7100,
+    category: "kojie"
   },
   {
-    "id": 105,
-    "name": "3 IN 1 DOUBLE ACTION LIGHTENING",
-    "description": "Crystal UV White Serum",
-    "price": 8000,
-    "image": "https://images.unsplash.com/photo-1591085686350-798c0f9faa7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 5,
+    name: "Kojie San Serum",
+    description: "Intensive skin brightening serum",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 17000,
+    priceDzn: 16500,
+    category: "kojie"
   },
   {
-    "id": 106,
-    "name": "3x Carrot Serum",
-    "description": "3x Carrot Serum • 30ml",
-    "price": 3200,
-    "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 6,
+    name: "Alada",
+    description: "African black soap for clear skin",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 9500,
+    priceDzn: 9000,
+    category: "alada"
   },
   {
-    "id": 107,
-    "name": "55H+ Harmonie Reparateur Carrot Serum",
-    "description": "55H+ Harmonie Reparateur Carrot Serum",
-    "price": 5000,
-    "image": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 7,
+    name: "Pretty Skin Acne Cleansing Foam",
+    description: "Foam cleanser for acne-prone skin",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 11000,
+    priceDzn: 10500,
+    category: "pretty skin"
   },
   {
-    "id": 108,
-    "name": "70000GM Marine White Optimum Glutathione Injection",
-    "description": "Marine White Optimum Glutathione Injection",
-    "price": 65000,
-    "image": "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 8,
+    name: "Pretty Skin Glutathione TX1 Vita Cream",
+    description: "Whitening cream with glutathione",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 14000,
+    priceDzn: 13500,
+    category: "pretty skin"
   },
   {
-    "id": 109,
-    "name": "Quick Sunstick Protection Bar",
-    "description": "Abib Quick Sunstick Protection Bar",
-    "price": 11000,
-    "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 9,
+    name: "Pretty Skin Glutathione TX1 Serum",
+    description: "Whitening serum with glutathione",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 14000,
+    priceDzn: 13500,
+    category: "pretty skin"
   },
   {
-    "id": 110,
-    "name": "Absolute Whitening Carrot Extract Body Lotion",
-    "description": "Absolute Whitening Carrot Extract Body Lotion",
-    "price": 5700,
-    "image": "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 10,
+    name: "Ginseng Retinol Multi Serum",
+    description: "Anti-aging serum with ginseng and retinol",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 10500,
+    priceDzn: 10000,
+    category: "retinol"
   },
   {
-    "id": 111,
-    "name": "ACNE STRESS CONTROL TRIPLE ACTION TONER",
-    "description": "Neutrogena Acne Stress Control Triple Action Toner",
-    "price": 12000,
-    "image": "https://images.unsplash.com/photo-1591085686350-798c0f9faa7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 11,
+    name: "Ginseng Retinol Multi Cream",
+    description: "Anti-aging cream with ginseng and retinol",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 10000,
+    priceDzn: 9500,
+    category: "retinol"
   },
   {
-    "id": 112,
-    "name": "ACTIVE HARMONIE MULTI VITAMIN TONING BODY LOTION",
-    "description": "QEI Paris Active Harmonie Multi Vitamin Toning Body Lotion",
-    "price": 12000,
-    "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 12,
+    name: "Pure Jeju Tangerine Vitamin C Cream",
+    description: "Brightening cream with vitamin C",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 12500,
+    priceDzn: 12000,
+    category: "vitamin c"
   },
   {
-    "id": 113,
-    "name": "ACTIVE HARMONIE RÉPARATEUR SERUM",
-    "description": "Active Harmonie Réparateur Serum",
-    "price": 7500,
-    "image": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 13,
+    name: "Pure Jeju Tangerine Vitamin C Ampoule",
+    description: "Concentrated vitamin C ampoule",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 12000,
+    priceDzn: 11500,
+    category: "vitamin c"
   },
   {
-    "id": 114,
-    "name": "Active Lightening Lotion with Papaya Extract",
-    "description": "Active Lightening Lotion with Papaya Extract",
-    "price": 5700,
-    "image": "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 14,
+    name: "Pure Jeju Tangerine Vitamin C Wash",
+    description: "Vitamin C facial wash",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 7000,
+    priceDzn: 6500,
+    category: "vitamin c"
   },
   {
-    "id": 115,
-    "name": "ACTIVE MOISTURISING TONING BODY LOTION",
-    "description": "QEI Paris Active Moisturising Toning Body Lotion",
-    "price": 13000,
-    "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 15,
+    name: "Rice Multi Cream",
+    description: "Moisturizing cream with rice extracts",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 11500,
+    priceDzn: 11000,
+    category: "rice"
   },
   {
-    "id": 116,
-    "name": "Licorice pH Balancing Advance Serum",
-    "description": "ACWELL Licorice pH Balancing Advance Serum • 30ml",
-    "price": 15500,
-    "image": "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 16,
+    name: "Rice Niacinamide Toner",
+    description: "Brightening toner with niacinamide",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 11500,
+    priceDzn: 11000,
+    category: "rice"
   },
   {
-    "id": 117,
-    "name": "Licorice pH Balancing Cleansing Toner",
-    "description": "Acwell Licorice pH Balancing Cleansing Toner • 150ml",
-    "price": 8500,
-    "image": "https://images.unsplash.com/photo-1591085686350-798c0f9faa7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 17,
+    name: "Good Molecules Niacinamide Serum",
+    description: "Niacinamide serum for brightening",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 12500,
+    priceDzn: 12000,
+    category: "serum"
   },
   {
-    "id": 118,
-    "name": "ACWELL Licorice Trial Kit",
-    "description": "ACWELL Licorice Trial Kit",
-    "price": 10000,
-    "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 18,
+    name: "Good Molecules Discoloration Serum",
+    description: "Serum for correcting skin discoloration",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 17500,
+    priceDzn: 17000,
+    category: "serum"
   },
   {
-    "id": 119,
-    "name": "Adaferin Adapalene Gel 0.1%",
-    "description": "Adapalene Gel 0.1%",
-    "price": 7500,
-    "image": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 19,
+    name: "Garnier Lotion",
+    description: "Body lotion for moisturizing",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 86000,
+    priceDzn: 85500,
+    category: "lotion"
   },
   {
-    "id": 120,
-    "name": "Advance Nutrition Gluta 1000",
-    "description": "Advance Nutrition Gluta 1000 • 30 Capsules",
-    "price": null,
-    "image": "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 20,
+    name: "Method Body Wash",
+    description: "Natural body wash",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 16000,
+    priceDzn: 15500,
+    category: "wash"
   },
   {
-    "id": 121,
-    "name": "ADVANCED ANTI-AGING DEEP PENETRATING",
-    "description": "OLAY TOTAL EFFECTS Anti-Aging Cream",
-    "price": 7000,
-    "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&w=600&q=80"
+    id: 21,
+    name: "Aveeno Body Wash and Shampoo",
+    description: "Gentle body wash and shampoo",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 38000,
+    priceDzn: 37500,
+    category: "aveeno"
   },
   {
-    "id": 122,
-    "name": "Advanced Cleansing Body and Face Cleanser",
-    "description": "Advanced Cleansing Body and Face Cleanser",
-    "price": null,
-    "image": "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 22,
+    name: "Aveeno Adult Lotion",
+    description: "Moisturizing lotion for adults",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 38000,
+    priceDzn: 37500,
+    category: "aveeno"
   },
   {
-    "id": 123,
-    "name": "ADVANCED CLINICAL VITAMIN C SERUM",
-    "description": "Advanced Clinicals Vitamin C Serum",
-    "price": 12000,
-    "image": "https://images.unsplash.com/photo-1591085686350-798c0f9faa7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 23,
+    name: "Aveeno Oil",
+    description: "Body oil for moisturizing",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 16500,
+    priceDzn: 16000,
+    category: "aveeno"
   },
   {
-    "id": 124,
-    "name": "Alpha Hydroxy 5in1 Therapy Cream",
-    "description": "Advanced Clinicals Alpha Hydroxy 5in1 Therapy Cream • 454g",
-    "price": 9000,
-    "image": "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    id: 24,
+    name: "Dove Baby Hypoallergenic Wash",
+    description: "Gentle wash for baby's sensitive skin",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 26500,
+    priceDzn: 26000,
+    category: "dove"
   },
-    {
-      id: 120,
-      name: "Nail Polish Set",
-      description: "Gel Effect Nail Polish • 6 Colors",
-      price: 12500,
-      image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+  {
+    id: 25,
+    name: "Dove Bodywash",
+    description: "Moisturizing body wash",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 18500,
+    priceDzn: 18000,
+    category: "dove"
+  },
+  {
+    id: 26,
+    name: "Neutrogena Scrub",
+    description: "Exfoliating facial scrub",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 19500,
+    priceDzn: 19000,
+    category: "neutrogena"
+  },
+  {
+    id: 27,
+    name: "Neutrogena Oil Free Acne Wash",
+    description: "Acne wash for oily skin",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 19000,
+    priceDzn: 18500,
+    category: "neutrogena"
+  },
+  {
+    id: 28,
+    name: "Neutrogena Oil",
+    description: "Body oil for moisturizing",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 20500,
+    priceDzn: 20000,
+    category: "neutrogena"
+  },
+  {
+    id: 29,
+    name: "Brmud Foam Cleanser",
+    description: "Gentle foam cleanser",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 11500,
+    priceDzn: 11000,
+    category: "cleanser"
+  },
+  {
+    id: 30,
+    name: "Tony Moly Ceramide Mochi Toner",
+    description: "Hydrating toner with ceramide",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 11500,
+    priceDzn: 11000,
+    category: "toner"
+  },
+  // Add more products following the same pattern...
+  {
+    id: 31,
+    name: "Tony Moly Ceramide Mochi Emulsion",
+    description: "Lightweight emulsion with ceramide",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 16000,
+    priceDzn: 15500,
+    category: "emulsion"
+  },
+  {
+    id: 32,
+    name: "Nineless UV Shield",
+    description: "Sun protection with UV shield",
+    image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    pricePcs: 10500,
+    priceDzn: 10000,
+    category: "sunscreen"
+  }
+];
+
+// ================= CART MANAGEMENT =================
+let cart = JSON.parse(localStorage.getItem('doaCart')) || [];
+
+function saveCart() {
+  localStorage.setItem('doaCart', JSON.stringify(cart));
+}
+
+function updateCartCount() {
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const cartCount = document.getElementById('cartCount');
+  const cartFloatCount = document.getElementById('cartFloatCount');
+  
+  if (cartCount) {
+    cartCount.textContent = totalItems;
+    cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+  }
+  
+  if (cartFloatCount) {
+    cartFloatCount.textContent = totalItems;
+    cartFloatCount.style.display = totalItems > 0 ? 'flex' : 'none';
+  }
+}
+
+function addToCart(productId, quantity = 1) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+  
+  const existingItem = cart.find(item => item.id === productId);
+  
+  if (existingItem) {
+    existingItem.quantity += quantity;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.pricePcs,
+      quantity: quantity,
+      image: product.image
+    });
+  }
+  
+  saveCart();
+  updateCartCount();
+  renderCart();
+  showNotification(`${product.name} added to cart!`);
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  saveCart();
+  updateCartCount();
+  renderCart();
+}
+
+function updateCartQuantity(productId, quantity) {
+  const item = cart.find(item => item.id === productId);
+  if (item) {
+    item.quantity = quantity;
+    if (item.quantity <= 0) {
+      removeFromCart(productId);
+    } else {
+      saveCart();
+      updateCartCount();
+      renderCart();
     }
-  ];
+  }
+}
 
-  // Cart state
-  let cart = JSON.parse(localStorage.getItem('doaCart')) || [];
+function clearCart() {
+  cart = [];
+  saveCart();
+  updateCartCount();
+  renderCart();
+  showNotification('Cart cleared!');
+}
 
-  // DOM elements
+// ================= RENDER FUNCTIONS =================
+function renderProducts(filter = '') {
   const productsGrid = document.getElementById('productsGrid');
+  if (!productsGrid) return;
+  
+  let filteredProducts = products;
+  
+  if (filter) {
+    const searchTerm = filter.toLowerCase();
+    filteredProducts = products.filter(product => 
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.description.toLowerCase().includes(searchTerm) ||
+      product.category.toLowerCase().includes(searchTerm)
+    );
+  }
+  
+  if (filteredProducts.length === 0) {
+    productsGrid.innerHTML = `
+      <div class="no-results">
+        <i class="fas fa-search"></i>
+        <h3>No products found</h3>
+        <p>Try searching for something else</p>
+      </div>
+    `;
+    return;
+  }
+  
+  productsGrid.innerHTML = filteredProducts.map(product => `
+    <div class="product-card">
+      <div class="product-image">
+        <img src="${product.image}" alt="${product.name}">
+      </div>
+      <div class="product-info">
+        <h3>${product.name}</h3>
+        <p>${product.description}</p>
+        <div class="product-pricing">
+          <div class="price-row">
+            <span class="price-label">Per piece:</span>
+            <span class="price-value">₦${product.pricePcs.toLocaleString()}</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Per dozen:</span>
+            <span class="price-value">₦${product.priceDzn.toLocaleString()}</span>
+          </div>
+        </div>
+        <div class="product-actions">
+          <div class="quantity-selector">
+            <button class="quantity-btn minus" onclick="updateQuantity(${product.id}, -1)">-</button>
+            <input type="text" class="quantity-input" id="qty-${product.id}" value="1" readonly>
+            <button class="quantity-btn plus" onclick="updateQuantity(${product.id}, 1)">+</button>
+          </div>
+          <button class="add-to-cart-btn" onclick="addToCartFromProduct(${product.id})">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCart() {
   const cartItems = document.getElementById('cartItems');
   const emptyCart = document.getElementById('emptyCart');
   const cartTotal = document.getElementById('cartTotal');
   const orderForm = document.getElementById('orderForm');
-  const cartCount = document.getElementById('cartCount');
-  const clearCartBtn = document.getElementById('clearCartBtn');
-  const submitOrderBtn = document.getElementById('submitOrderBtn');
+  
+  if (cart.length === 0) {
+    emptyCart.style.display = 'block';
+    cartTotal.style.display = 'none';
+    orderForm.style.display = 'none';
+    cartItems.innerHTML = `
+      <div class="empty-cart" id="emptyCart">
+        <i class="fas fa-shopping-cart"></i>
+        <p>Your cart is empty</p>
+        <p>Add cosmetics from the collection</p>
+      </div>
+    `;
+    return;
+  }
+  
+  emptyCart.style.display = 'none';
+  cartTotal.style.display = 'block';
+  orderForm.style.display = 'block';
+  
+  let subtotal = 0;
+  
+  cartItems.innerHTML = cart.map(item => {
+    const productTotal = item.price * item.quantity;
+    subtotal += productTotal;
+    
+    return `
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <h4>${item.name}</h4>
+          <p>₦${item.price.toLocaleString()} each</p>
+        </div>
+        <div class="cart-item-quantity">
+          <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity - 1})">-</button>
+          <span>${item.quantity}</span>
+          <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity + 1})">+</button>
+        </div>
+        <div class="cart-item-price">
+          ₦${productTotal.toLocaleString()}
+        </div>
+        <button onclick="removeCartItem(${item.id})" style="background:none; border:none; color:#74625c; cursor:pointer;">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    `;
+  }).join('');
+  
+  const deliveryFee = 2500;
+  const grandTotal = subtotal + deliveryFee;
+  
+  document.getElementById('subtotal').textContent = `₦${subtotal.toLocaleString()}`;
+  document.getElementById('grandTotal').textContent = `₦${grandTotal.toLocaleString()}`;
+}
+
+// ================= NOTIFICATION =================
+function showNotification(message, duration = 3000) {
   const notification = document.getElementById('notification');
+  notification.textContent = message;
+  notification.classList.add('show');
+  
+  setTimeout(() => {
+    notification.classList.remove('show');
+  }, duration);
+}
 
-  // Initialize the page
-  document.addEventListener('DOMContentLoaded', function() {
-    renderProducts();
-    renderCart();
-    updateCartCount();
-    updateAllCartCounts();
-    
-    // Set current year
-    document.getElementById("year").textContent = new Date().getFullYear();
-    
-    // Mobile menu toggle
-    const menuToggle = document.getElementById('menuToggle');
-    const navLinks = document.getElementById('navLinks');
-    if (menuToggle) {
-      menuToggle.onclick = () => navLinks.classList.toggle('active');
-    }
+// ================= EVENT HANDLERS =================
+function updateQuantity(productId, change) {
+  const input = document.getElementById(`qty-${productId}`);
+  let value = parseInt(input.value) + change;
+  if (value < 1) value = 1;
+  input.value = value;
+}
+
+function addToCartFromProduct(productId) {
+  const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
+  addToCart(productId, quantity);
+  
+  // Reset quantity
+  document.getElementById(`qty-${productId}`).value = 1;
+  
+  // Visual feedback
+  const btn = document.querySelector(`[onclick="addToCartFromProduct(${productId})"]`);
+  btn.classList.add('added');
+  btn.textContent = 'Added!';
+  setTimeout(() => {
+    btn.classList.remove('added');
+    btn.textContent = 'Add to Cart';
+  }, 2000);
+}
+
+function updateCartItemQuantity(productId, quantity) {
+  updateCartQuantity(productId, quantity);
+}
+
+function removeCartItem(productId) {
+  removeFromCart(productId);
+  showNotification('Item removed from cart');
+}
+
+// ================= SEARCH FUNCTIONALITY =================
+function setupSearch() {
+  const searchInput = document.getElementById('productSearch');
+  const clearSearch = document.getElementById('clearSearch');
+  const searchTags = document.querySelectorAll('.search-tag');
+  
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      renderProducts(e.target.value);
+    });
+  }
+  
+  if (clearSearch) {
+    clearSearch.addEventListener('click', () => {
+      searchInput.value = '';
+      renderProducts('');
+    });
+  }
+  
+  searchTags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      searchInput.value = tag.getAttribute('data-search');
+      renderProducts(tag.getAttribute('data-search'));
+    });
   });
+}
 
-  // Render products
-  function renderProducts() {
-    productsGrid.innerHTML = '';
-    
-    products.forEach(product => {
-      const productCard = document.createElement('div');
-      productCard.className = 'product-card';
-      productCard.innerHTML = `
-        <div class="product-image">
-          <img src="${product.image}" alt="${product.name}" loading="lazy">
-        </div>
-        <div class="product-info">
-          <h3>${product.name}</h3>
-          <p>${product.description}</p>
-          <div class="product-price">₦${product.price.toLocaleString()}</div>
-          <div class="product-actions">
-            <div class="quantity-selector">
-              <button class="quantity-btn minus" data-id="${product.id}">-</button>
-              <input type="text" class="quantity-input" id="qty-${product.id}" value="1" readonly>
-              <button class="quantity-btn plus" data-id="${product.id}">+</button>
-            </div>
-            <button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
-          </div>
-        </div>
-      `;
-      productsGrid.appendChild(productCard);
-    });
-
-    // Add event listeners for quantity buttons
-    document.querySelectorAll('.quantity-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const productId = parseInt(this.getAttribute('data-id'));
-        const input = document.getElementById(`qty-${productId}`);
-        let value = parseInt(input.value);
-        
-        if (this.classList.contains('minus') && value > 1) {
-          input.value = value - 1;
-        } else if (this.classList.contains('plus')) {
-          input.value = value + 1;
-        }
-      });
-    });
-
-    // Add event listeners for add to cart buttons
-    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const productId = parseInt(this.getAttribute('data-id'));
-        const product = products.find(p => p.id === productId);
-        const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
-        
-        addToCart(product, quantity);
-        
-        // Show added feedback
-        this.textContent = 'Added!';
-        this.classList.add('added');
-        setTimeout(() => {
-          this.textContent = 'Add to Cart';
-          this.classList.remove('added');
-        }, 1500);
-      });
-    });
-  }
-
-  // Add item to cart
-  function addToCart(product, quantity) {
-    const existingItem = cart.find(item => item.id === product.id);
-    
-    if (existingItem) {
-      existingItem.quantity += quantity;
-    } else {
-      cart.push({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        quantity: quantity
-      });
-    }
-    
-    saveCart();
-    renderCart();
-    updateAllCartCounts();
-    showNotification(`${product.name} added to cart`);
-    validateForm();
-  }
-
-  // Render cart
-  function renderCart() {
-    cartItems.innerHTML = '';
-    
-    if (cart.length === 0) {
-      emptyCart.style.display = 'block';
-      cartTotal.style.display = 'none';
-      orderForm.style.display = 'none';
-    } else {
-      emptyCart.style.display = 'none';
-      cartTotal.style.display = 'block';
-      orderForm.style.display = 'block';
+// ================= ORDER SUBMISSION =================
+function setupOrderSubmission() {
+  const submitBtn = document.getElementById('submitOrderBtn');
+  
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      const name = document.getElementById('customerName').value.trim();
+      const phone = document.getElementById('customerPhone').value.trim();
+      const address = document.getElementById('customerAddress').value.trim();
       
-      let subtotal = 0;
+      if (!name || !phone || !address) {
+        showNotification('Please fill in all required fields!', 4000);
+        return;
+      }
       
-      cart.forEach(item => {
-        const itemTotal = item.price * item.quantity;
-        subtotal += itemTotal;
-        
-        const cartItem = document.createElement('div');
-        cartItem.className = 'cart-item';
-        cartItem.innerHTML = `
-          <div class="cart-item-info">
-            <h4>${item.name}</h4>
-            <p>₦${item.price.toLocaleString()} × ${item.quantity}</p>
-          </div>
-          <div class="cart-item-quantity">
-            <button class="decrease-qty" data-id="${item.id}">-</button>
-            <span>${item.quantity}</span>
-            <button class="increase-qty" data-id="${item.id}">+</button>
-          </div>
-          <div class="cart-item-price">₦${itemTotal.toLocaleString()}</div>
-        `;
-        cartItems.appendChild(cartItem);
+      if (cart.length === 0) {
+        showNotification('Your cart is empty!', 3000);
+        return;
+      }
+      
+      // Format order message
+      let message = `*NEW ORDER FROM DOA COSMETICS WEBSITE*\n\n`;
+      message += `*Customer Details:*\n`;
+      message += `Name: ${name}\n`;
+      message += `Phone: ${phone}\n`;
+      if (document.getElementById('customerEmail').value) {
+        message += `Email: ${document.getElementById('customerEmail').value}\n`;
+      }
+      message += `Address: ${address}\n`;
+      if (document.getElementById('deliveryNotes').value) {
+        message += `Notes: ${document.getElementById('deliveryNotes').value}\n`;
+      }
+      
+      message += `\n*Order Items:*\n`;
+      cart.forEach((item, index) => {
+        message += `${index + 1}. ${item.name} x${item.quantity} - ₦${(item.price * item.quantity).toLocaleString()}\n`;
       });
-
-      // Add event listeners for quantity adjustments in cart
-      document.querySelectorAll('.decrease-qty').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const productId = parseInt(this.getAttribute('data-id'));
-          updateCartItemQuantity(productId, -1);
-        });
-      });
-
-      document.querySelectorAll('.increase-qty').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const productId = parseInt(this.getAttribute('data-id'));
-          updateCartItemQuantity(productId, 1);
-        });
-      });
-
-      // Update totals
+      
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       const deliveryFee = 2500;
-      const grandTotal = subtotal + deliveryFee;
+      const total = subtotal + deliveryFee;
       
-      document.getElementById('subtotal').textContent = `₦${subtotal.toLocaleString()}`;
-      document.getElementById('grandTotal').textContent = `₦${grandTotal.toLocaleString()}`;
-    }
+      message += `\n*Order Summary:*\n`;
+      message += `Subtotal: ₦${subtotal.toLocaleString()}\n`;
+      message += `Delivery: ₦${deliveryFee.toLocaleString()}\n`;
+      message += `*TOTAL: ₦${total.toLocaleString()}*\n\n`;
+      message += `Order placed on: ${new Date().toLocaleString()}`;
+      
+      // Encode message for WhatsApp URL
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/2348038810268?text=${encodedMessage}`;
+      
+      // Open WhatsApp in new tab
+      window.open(whatsappUrl, '_blank');
+      
+      // Show confirmation
+      showNotification('Opening WhatsApp to send your order...');
+    });
   }
+}
 
-  // Update cart item quantity
-  function updateCartItemQuantity(productId, change) {
-    const item = cart.find(item => item.id === productId);
-    
-    if (item) {
-      item.quantity += change;
-      
-      if (item.quantity <= 0) {
-        cart = cart.filter(item => item.id !== productId);
-        showNotification('Item removed from cart');
-      } else {
-        showNotification(`${item.name} quantity updated`);
-      }
-      
-      saveCart();
-      renderCart();
-      updateAllCartCounts();
-      validateForm();
-    }
-  }
-
-  // Clear cart
-  clearCartBtn.addEventListener('click', function() {
-    if (cart.length > 0) {
-      if (confirm('Are you sure you want to clear your cart?')) {
-        cart = [];
-        saveCart();
-        renderCart();
-        updateAllCartCounts();
-        showNotification('Cart cleared');
-        validateForm();
-      }
-    }
-  });
-
-  // Submit order
-  submitOrderBtn.addEventListener('click', function() {
-    const name = document.getElementById('customerName').value.trim();
-    const phone = document.getElementById('customerPhone').value.trim();
-    const email = document.getElementById('customerEmail').value.trim();
-    const address = document.getElementById('customerAddress').value.trim();
-    const notes = document.getElementById('deliveryNotes').value.trim();
-    
-    // Validate required fields
-    if (!name || !phone || !address) {
-      showNotification('Please fill in all required fields', 'error');
-      return;
-    }
-    
-    if (cart.length === 0) {
-      showNotification('Your cart is empty', 'error');
-      return;
-    }
-    
-    // Disable button during processing
-    this.disabled = true;
-    this.textContent = 'Processing...';
-    
-    // Prepare order message
-    const orderMessage = generateOrderMessage(name, phone, email, address, notes);
-    
-    // Encode message for WhatsApp URL
-    const encodedMessage = encodeURIComponent(orderMessage);
-    
-    // WhatsApp phone number
-    const whatsappNumber = '2348038810268';
-    
-    // Create WhatsApp URL
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-    
-    // Open WhatsApp in new tab
-    window.open(whatsappUrl, '_blank');
-    
-    // Reset button
-    setTimeout(() => {
-      this.disabled = false;
-      this.textContent = 'Place Order via WhatsApp';
-    }, 2000);
-  });
-
-  // Generate order message for WhatsApp
-  function generateOrderMessage(name, phone, email, address, notes) {
-    let message = `*NEW COSMETICS ORDER - DOA PERFUMES & COSMETICS*\n\n`;
-    message += `*Customer Information:*\n`;
-    message += `Name: ${name}\n`;
-    message += `Phone: ${phone}\n`;
-    if (email) message += `Email: ${email}\n`;
-    message += `Address: ${address}\n`;
-    if (notes) message += `Notes: ${notes}\n\n`;
-    
-    message += `*Order Details:*\n`;
-    let subtotal = 0;
-    
-    cart.forEach((item, index) => {
-      const itemTotal = item.price * item.quantity;
-      subtotal += itemTotal;
-      message += `${index + 1}. ${item.name} - ${item.quantity} × ₦${item.price.toLocaleString()} = ₦${itemTotal.toLocaleString()}\n`;
+// ================= MOBILE MENU =================
+function setupMobileMenu() {
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      menuToggle.classList.toggle('active');
     });
     
-    const deliveryFee = 2500;
-    const grandTotal = subtotal + deliveryFee;
-    
-    message += `\n*Order Summary:*\n`;
-    message += `Subtotal: ₦${subtotal.toLocaleString()}\n`;
-    message += `Delivery Fee: ₦${deliveryFee.toLocaleString()}\n`;
-    message += `*Total: ₦${grandTotal.toLocaleString()}*\n\n`;
-    
-    message += `Order placed on: ${new Date().toLocaleString()}\n`;
-    message += `Thank you!`;
-    
-    return message;
-  }
-
-  // Show notification
-  function showNotification(message, type = 'success') {
-    notification.textContent = message;
-    notification.className = `notification ${type}`;
-    notification.classList.add('show');
-    
-    setTimeout(() => {
-      notification.classList.remove('show');
-    }, 3000);
-  }
-
-  // Update cart count
-  function updateCartCount() {
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    cartCount.textContent = totalItems;
-  }
-
-  // Save cart to localStorage
-  function saveCart() {
-    localStorage.setItem('doaCart', JSON.stringify(cart));
-  }
-
-  // Form validation
-  document.querySelectorAll('.form-control').forEach(input => {
-    input.addEventListener('input', function() {
-      validateForm();
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove('active');
+        menuToggle.classList.remove('active');
+      }
     });
-  });
-
-  function validateForm() {
-    const name = document.getElementById('customerName').value.trim();
-    const phone = document.getElementById('customerPhone').value.trim();
-    const address = document.getElementById('customerAddress').value.trim();
-    const submitBtn = document.getElementById('submitOrderBtn');
-    
-    submitBtn.disabled = !(name && phone && address && cart.length > 0);
   }
+}
 
-  // Initialize form validation
-  validateForm();
+// ================= INITIALIZATION =================
+document.addEventListener('DOMContentLoaded', () => {
+  // Set current year in footer
+  document.getElementById('year').textContent = new Date().getFullYear();
+  
+  // Render initial products and cart
+  renderProducts();
+  renderCart();
+  updateCartCount();
+  
+  // Setup event listeners
+  setupSearch();
+  setupOrderSubmission();
+  setupMobileMenu();
+  
+  // Clear cart button
+  document.getElementById('clearCartBtn').addEventListener('click', clearCart);
+  
+  // Floating cart button functionality
+  const cartFloatBtn = document.getElementById('cartFloatBtn');
+  if (cartFloatBtn) {
+    cartFloatBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const cartSection = document.getElementById('cart-section');
+      if (cartSection) {
+        cartSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+        
+        // Highlight effect
+        cartSection.style.boxShadow = '0 0 0 4px rgba(212, 175, 55, 0.5)';
+        setTimeout(() => {
+          cartSection.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+        }, 1500);
+      }
+    });
+  }
+  
+  // Newsletter subscription
+  const subscribeBtn = document.querySelector('.subscribe-btn');
+  if (subscribeBtn) {
+    subscribeBtn.addEventListener('click', () => {
+      const emailInput = document.querySelector('.email-input');
+      if (emailInput.value) {
+        showNotification('Thank you for subscribing!', 3000);
+        emailInput.value = '';
+      }
+    });
+  }
+});
 </script>
-
 </body>
 </html>
