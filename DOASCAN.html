@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Authenticity Verification | DOA PERFUME & COSMETICS</title>
+
+  <!-- External Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --nav-bg: #3A2E2A;
+      --accent: #E6D8C3;
+      --gold: #D4AF37;
+      --bg-color: #f5f2ee;
+      --text-dark: #3A2E2A;
+      --text-white: #ffffff;
+      --green-seal: #2e7d32;
+      --green-bg: #e8f5e9;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* ================= NAVBAR ================= */
+    .navbar {
+      position: sticky;
+      top: 1rem;
+      z-index: 1000;
+      background: var(--nav-bg);
+      padding: 0.75rem 2rem;
+      margin: 1rem auto;
+      border-radius: 50px;
+      max-width: 95%;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-img { height: 50px; width: auto; transition: var(--transition); }
+    .logo-img:hover { transform: scale(1.05); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .main-nav { display: flex; gap: 2rem; }
+
+    .nav-links a {
+      color: var(--text-white);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .main-nav a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: var(--accent);
+      transition: var(--transition);
+    }
+
+    .main-nav a:hover { color: var(--accent); }
+    .main-nav a:hover::after { width: 100%; }
+
+    @media (max-width: 992px) {
+      .menu-toggle { display: flex; flex-direction: column; gap: 5px; cursor: pointer; }
+      .menu-toggle span { width: 25px; height: 3px; background: #fff; transition: var(--transition); }
+      .nav-links {
+        position: absolute;
+        top: 120%; right: 0;
+        background: var(--nav-bg);
+        flex-direction: column;
+        width: 250px; padding: 2rem;
+        border-radius: 20px;
+        transform: translateX(120%);
+        transition: var(--transition);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      }
+      .nav-links.active { transform: translateX(0); }
+      .main-nav { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+
+    /* ================= VERIFICATION WRAPPER ================= */
+    .verify-container {
+      max-width: 850px;
+      margin: 3rem auto 5rem;
+      padding: 0 1.5rem;
+    }
+
+    /* Verified Badge Banner */
+    .status-card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--green-bg);
+      color: var(--green-seal);
+      padding: 0.6rem 1.4rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(46, 125, 50, 0.2);
+    }
+
+    .status-badge i { font-size: 1.2rem; }
+
+    .status-card h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .status-card p.subtitle {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    /* Batch Specs Table */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      background: var(--bg-color);
+      padding: 1.5rem;
+      border-radius: 20px;
+      text-align: left;
+    }
+
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spec-label {
+      font-size: 0.85rem;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .spec-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    /* ================= SAFETY & QUALITY SECTION ================= */
+    .section-card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+    }
+
+    .section-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: var(--text-dark);
+      position: relative;
+    }
+
+    .section-card h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 2px;
+      background: var(--gold);
+      margin: 8px auto 0;
+    }
+
+    .quality-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.8rem;
+      margin-top: 2rem;
+    }
+
+    .quality-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .quality-item i {
+      font-size: 1.8rem;
+      color: var(--gold);
+      background: var(--bg-color);
+      padding: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .quality-item h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .quality-item p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    /* ================= ENDORSEMENT BANNER ================= */
+    .endorsement-card {
+      background: var(--nav-bg);
+      color: var(--accent);
+      border-radius: 28px;
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    .endorsement-card i.quote-icon {
+      font-size: 2.5rem;
+      opacity: 0.3;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .endorsement-card blockquote {
+      font-size: 1.25rem;
+      font-style: italic;
+      max-width: 680px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.7;
+    }
+
+    .endorsement-card .signature {
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-white);
+      font-weight: 600;
+    }
+
+    /* ================= FOOTER ================= */
+    .footer {
+      background-color: var(--accent);
+      padding: 4rem 1.5rem 2rem;
+      color: #333;
+    }
+
+    .footer-main {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1000px;
+      margin: auto;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      padding-top: 3rem;
+      gap: 3rem;
+    }
+
+    .footer-left { flex: 1; min-width: 250px; text-align: left; }
+    .footer-logo { width: 150px; margin-bottom: 1rem; }
+    .footer-left p { font-size: 0.9rem; color: #0F0F0F; margin-bottom: 1rem; }
+
+    .social-icons { display: flex; gap: 1rem; margin-top: 1rem; }
+    .social-link { color: var(--text-dark); font-size: 1.4rem; transition: var(--transition); }
+    .social-link:hover { color: #74625c; transform: scale(1.1); }
+
+    .footer-links { display: flex; gap: 3rem; flex-wrap: wrap; }
+    .link-group h4 { font-size: 1rem; margin-bottom: 1rem; color: var(--text-dark); font-weight: 600; }
+    .link-group a { display: block; text-decoration: none; color: #0F0F0F; font-size: 0.9rem; margin-bottom: 0.5rem; transition: var(--transition); }
+    .link-group a:hover { color: #373737; }
+
+    .footer-bottom {
+      text-align: center;
+      color: #333;
+      font-size: 0.9rem;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    @media (max-width: 768px) {
+      .footer-main { flex-direction: column; gap: 2rem; }
+      .footer-links { flex-direction: column; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="DOA Logo" class="logo-img">
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <div class="main-nav">
+          <a href="index.html">HOME</a>
+          <a href="about.html">ABOUT</a>
+          <a href="perfume.html">PERFUMES</a>
+          <a href="cosmetic.html">COSMETICS</a>
+          <a href="contact.html">CONTACT</a>
+        </div>
+      </div>
+
+      <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- VERIFICATION MAIN CONTENT -->
+  <main class="verify-container">
+    
+    <!-- AUTHENTICITY STATUS CARD -->
+    <section class="status-card">
+      <div class="status-badge">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>100% AUTHENTIC PRODUCT</span>
+      </div>
+      <h1>Verified Authentic Item</h1>
+      <p class="subtitle">Thank you for choosing DOA Perfumes & Cosmetics. This item has been verified directly from our official registry.</p>
+
+      <div class="specs-grid">
+        <div class="spec-item">
+          <span class="spec-label">Verification Code</span>
+          <span class="spec-value" id="batchCode">DOA-2026-8894</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">First Scanned</span>
+          <span class="spec-value" id="scanTime">Just Now</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">Origin</span>
+          <span class="spec-value">Trade Fair Market, Lagos</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">Status</span>
+          <span class="spec-value" style="color: var(--green-seal);">Pass / Active</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAFETY & QUALITY ASSURANCE -->
+    <section class="section-card">
+      <h2>Quality & Safety Assured</h2>
+      <p style="text-align: center; color: #666; max-width: 600px; margin: 0 auto 1.5rem;">
+        Every fragrance and cosmetic formulation at DOA undergoes stringent testing to meet international safety and dermatological standards.
+      </p>
+
+      <div class="quality-grid">
+        <div class="quality-item">
+          <i class="fa-solid fa-shield-heart"></i>
+          <div>
+            <h3>Dermatologically Safe</h3>
+            <p>Formulated to be safe, non-irritating, and gentle on all skin types for daily wear.</p>
+          </div>
+        </div>
+
+        <div class="quality-item">
+          <i class="fa-solid fa-flask"></i>
+          <div>
+            <h3>Premium Formulations</h3>
+            <p>Crafted using sustainably sourced essential oils and cosmetic-grade ingredients.</p>
+          </div>
+        </div>
+
+        <div class="quality-item">
+          <i class="fa-solid fa-award"></i>
+          <div>
+            <h3>Certified Quality</h3>
+            <p>Meets strict IFRA and global cosmetic safety compliance standards for long-lasting wear.</p>
+          </div>
+        </div>
+
+        <div class="quality-item">
+          <i class="fa-solid fa-leaf"></i>
+          <div>
+            <h3>Free from Toxins</h3>
+            <p>Free from harmful parabens, phthalates, and aggressive chemicals.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRAND RECOMMENDATION -->
+    <section class="endorsement-card">
+      <i class="fa-solid fa-quote-left quote-icon"></i>
+      <blockquote>
+        "We take immense pride in crafting products that combine timeless luxury with absolute safety. We strongly recommend this product for your daily ritual. Enjoy every note and experience."
+      </blockquote>
+      <div class="signature">DOA Quality Control Team</div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="footer-left">
+        <img src="footer logo.png" alt="DOA Logo" class="footer-logo" />
+        <p>Where fragrance meets beauty,<br>crafted for everyday moments.</p>
+
+        <div class="social-icons">
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <div class="link-group">
+          <h4>Features</h4>
+          <a href="perfume.html">Perfumes</a>
+          <a href="cosmetic.html">Cosmetics</a>
+        </div>
+
+        <div class="link-group">
+          <h4>Support</h4>
+          <a href="#">Help</a>
+          <a href="#">FAQs</a>
+          <a href="contact.html">Contact</a>
+        </div>
+
+        <div class="link-group">
+          <h4>Legal</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="cookies.html">Cookies</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© DOA Perfumes & Cosmetics <span id="year"></span>. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Navigation Mobile Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (menuToggle) {
+      menuToggle.onclick = () => navLinks.classList.toggle('active');
+    }
+
+    // Dynamic Year Update
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // URL Parameter handling (optional: pass batch code dynamically via URL e.g. verify.html?code=DOA-9920)
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeParam = urlParams.get('code');
+    if (codeParam) {
+      document.getElementById('batchCode').textContent = codeParam;
+    }
+  </script>
+</body>
+</html>
